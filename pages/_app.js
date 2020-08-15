@@ -2,7 +2,8 @@ import '../styles/globals.css'
 
 import { Provider } from 'react-redux'
 import { useStore } from './store'
-import Navbar from '../component/navbar'
+
+import Layout  from '../component/layout'
 
 
 export default function MyApp({ Component, pageProps }) {
@@ -10,8 +11,9 @@ export default function MyApp({ Component, pageProps }) {
 
   return (
     <Provider store={store}>
-     <Navbar/>
+    
       <Component {...pageProps} />
+     
     </Provider>
   )
 }

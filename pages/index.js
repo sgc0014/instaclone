@@ -9,10 +9,10 @@ import { FiHeart } from "react-icons/fi";
 import Post from "../component/post";
 import RecommendedUser from "../component/recommendedUser";
 import Navbar from "../component/navbar";
+import Layout from "../component/layout";
 export default function Home() {
   return (
-    <div>
-    
+      <Layout>
       <div className="mainBody">
         <div className="left">
           <ul className="storyContainer">
@@ -152,6 +152,6 @@ export default function Home() {
         
         `}
       </style>
-    </div>
+   </Layout>
   );
 }

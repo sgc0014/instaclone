@@ -3,6 +3,7 @@ import React from "react";
 import { FaRegEdit } from "react-icons/fa";
 import Userlist from "../component/chat/userlist";
 import Messagebox from "../component/chat/messagebox";
+import Layout from "../component/layout";
 function Nomsg() {
   return (
     <div className="noMsg">
@@ -16,14 +17,18 @@ function Nomsg() {
 }
 function Chat() {
   return (
-    <div className="chatBody">
+    <Layout>
+   
       <div className="chatContainer">
        
         <Userlist />
        
         <Messagebox />
         
-        <style jsx>
+       
+      </div>
+   
+    <style jsx>
           {`
           
             .chatContainer {
@@ -36,8 +41,7 @@ function Chat() {
            
           `}
         </style>
-      </div>
-    </div>
+    </Layout>
   );
 }
 
