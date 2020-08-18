@@ -5,24 +5,24 @@ import { RiSendPlaneLine } from "react-icons/ri";
 import firebase from '../lib/firebase'
 
 
- const Post = ({postImg}) => {
+ const Post = ({author,imgArr,likes,caption}) => {
   return (
     <div className="post">
      
       <div className="topPart">
         <span className="pp">
           
-          <img src={`/static/users/user${postImg}.jpg`} />
+          <img src={`/static/users/user1.jpg`} />
         </span>
         <div className="subPart">
-          <span className="username">sgc14</span>
+          <span className="username">{author}</span>
           <span>
             <FiMoreHorizontal />
           </span>
         </div>
       </div>
       <div className="midPart">
-        <img src={`/static/posts/post${postImg}.jpg`} />
+        <img src={`${imgArr[0]}`} />
       </div>
       <div className="bottomPart">
         <div style={{padding:"12px"}}>
@@ -44,13 +44,13 @@ import firebase from '../lib/firebase'
           </div>
           <div>
             <span style={{ margin:'5px 0' }}>
-              0 Likes
+              {likes} Likes
             </span>
           </div>
 
           <div style={{ marginBottom: "5px" }} className="caption">
-            <span className="username">Sagar Giri</span>
-            <span>Drop everything and win.</span>
+            <span className="username">{author}</span>
+            <span>{caption}</span>
           </div>
 
           <div style={{ marginBottom: "5px" }} className="commentLink">

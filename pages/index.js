@@ -1,80 +1,91 @@
 import Post from "../component/post";
 import RecommendedUser from "../component/recommendedUser";
 import Layout from "../component/layout";
-import {observer,inject} from 'mobx-react';
-import firebase from '../lib/firebase'
+import { observer, inject } from "mobx-react";
+import firebase from "../lib/firebase";
 
-@inject('store')
+
+@inject("store")
 @observer
-
 export default class Home extends React.Component {
- 
- render(){
-  return (
+  state = {
+    posts:[]
+  }
+  componentDidMount() {
+    this.setState({posts:this.props.posts})
+  }
+  render() {
+    return (
       <Layout>
-   {console.log('posts',this.props)}
-      <div className="mainBody">
-        <div className="left">
-          <ul className="storyContainer">
-            <li className="story">
-              <div className="storypp">
-                <img src="/static/users/user1.jpg" />
-              </div>
-              <span className="username">sgc14</span>
-            </li>
-            <li className="story">
-              <div className="storypp">
-                <img src="/static/users/user2.jpg" />
-              </div>
-              <span className="username">Rabtorab</span>
-            </li>
-            <li className="story">
-              <div className="storypp">
-                <img src="/static/users/user3.jpg" />
-              </div>
-              <span className="username">Badgooy</span>
-            </li>
-            <li className="story">
-              <div className="storypp">
-                <img src="/static/users/user4.jpg" />
-              </div>
-              <span className="username">Szkshr</span>
-            </li>
-          </ul>
+     
+        <div className="mainBody">
+          <div className="left">
+            <ul className="storyContainer">
+              <li className="story">
+                <div className="storypp">
+                  <img src="/static/users/user1.jpg" />
+                </div>
+                <span className="username">sgc14</span>
+              </li>
+              <li className="story">
+                <div className="storypp">
+                  <img src="/static/users/user2.jpg" />
+                </div>
+                <span className="username">Rabtorab</span>
+              </li>
+              <li className="story">
+                <div className="storypp">
+                  <img src="/static/users/user3.jpg" />
+                </div>
+                <span className="username">Badgooy</span>
+              </li>
+              <li className="story">
+                <div className="storypp">
+                  <img src="/static/users/user4.jpg" />
+                </div>
+                <span className="username">Szkshr</span>
+              </li>
+            </ul>
 
-          <div className="postContainer">
-            <Post user='sgc0014' postImg='1'/>
-            <Post user='Rabtorab' postImg='2'/>
-            <Post user='Badgooy' postImg='3'/>
-            <Post user='sznShr' postImg='4'/>
-            <Post user='Ti123' postImg='5'/>
+            <div className="postContainer">
+              {this.state.posts &&
+               this.state.posts.map((post,i=post.id) =>    <Post
+                    key={i}
+                    caption={post.caption}
+                    imgArr={post.imgArr}
+                    likes={post.likes}
+                    author={post.author}
+                  />
+              )}
+           
+            </div>
+          </div>
+
+          <div className="right">
+            <div className="rightContainer">
+              <div className="mainUser">
+                <div className="mainUserPp">
+                  <img src="/static/users/user1.jpg" />
+                </div>
+                <div className="mainUsername">
+                  sgc0014 <span>Sagar Giri</span>
+                </div>
+              </div>
+              <div className="suggestion">
+                <div className="suggestionHeader">
+                  <div style={{ color: "#999" }}>Suggestion for you</div>
+                  <div>See all</div>
+                </div>
+                <div className="recommenderUsers">
+                  <RecommendedUser />
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
-        <div className="right">
-          <div className="rightContainer">
-            <div className="mainUser">
-              <div className="mainUserPp">
-                <img src="/static/users/user1.jpg" />
-              </div>
-              <div className="mainUsername">
-                sgc0014 <span>Sagar Giri</span>
-              </div>
-            </div>
-            <div className='suggestion'>
-              <div className='suggestionHeader'>
-                <div style={{color:'#999'}}>Suggestion for you</div><div>See all</div>
-              </div>
-              <div className='recommenderUsers'>
-             <RecommendedUser />
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <style jsx>
-        {`
+        <style jsx>
+          {`
         
           .mainBody {
             max-width: 935px;
@@ -169,29 +180,35 @@ export default class Home extends React.Component {
             }
           }
         `}
-      </style>
-   </Layout>
-  );
-}
+        </style>
+      </Layout>
+    );
+  }
 }
 
-export  async function getServerSideProps() {
-  let posts=[];
+export async function getServerSideProps() {
+  let posts = [];
   const db = firebase.firestore();
-  const storage = firebase.storage().ref();
- let result = await db.collection('posts').get().then(function(querySnapshot) {
-    querySnapshot.forEach( function(doc) {
-     
-    
-       posts.push({id:doc.id,data:doc.data()})
-       
-       
+
+  // get download url
+  // let urlC;
+
+  // const storage = firebase.storage().ref();
+  // let result2 = await  storage.child('posts/post2.jpg').getDownloadURL().then(function(url){
+  //   urlC = url
+  // })
+
+  let result = await db
+    .collection("posts")
+    .get()
+    .then(function (querySnapshot) {
+      querySnapshot.forEach(function (doc) {
+        let data = {...doc.id,...doc.data()}
+        posts.push(data);
+      });
     });
 
-});
-
-  return{
-    props:{posts}
-  }
-
+  return {
+    props: { posts},
+  };
 }

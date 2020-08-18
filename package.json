@@ -18,7 +18,9 @@
     "react-icons": "^3.10.0",
     "react-redux": "^7.2.1",
     "redux": "^4.0.5",
-    "redux-devtools-extension": "^2.13.8"
+    "redux-devtools-extension": "^2.13.8",
+    "xhr2": "^0.2.0",
+    "xmlhttprequest": "^1.8.0"
   },
   "devDependencies": {
     "@babel/plugin-proposal-class-properties": "^7.10.4",
