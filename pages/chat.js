@@ -4,17 +4,7 @@ import { FaRegEdit } from "react-icons/fa";
 import Userlist from "../component/chat/userlist";
 import Messagebox from "../component/chat/messagebox";
 import Layout from "../component/layout";
-function Nomsg() {
-  return (
-    <div className="noMsg">
-      <h1 style={{ fontWeight: "400" }}>Your Messages</h1>
-      <p style={{ color: " #979292;" }}>
-        Send private photos and messages to a friend or group.
-      </p>
-      <button className="prmBtn">Send Message</button>
-    </div>
-  );
-}
+
 function Chat() {
   return (
     <Layout>

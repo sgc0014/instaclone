@@ -1,18 +1,18 @@
-import Head from "next/head";
-import styles from "../styles/Home.module.css";
-import { FiSearch } from "react-icons/fi";
-import { IoIosCloseCircle } from "react-icons/io";
-import { BsHouseDoorFill, BsCircle } from "react-icons/bs";
-import { RiSendPlaneLine } from "react-icons/ri";
-import { TiCompass } from "react-icons/ti";
-import { FiHeart } from "react-icons/fi";
 import Post from "../component/post";
 import RecommendedUser from "../component/recommendedUser";
-import Navbar from "../component/navbar";
 import Layout from "../component/layout";
-export default function Home() {
+import {observer,inject} from 'mobx-react';
+import firebase from '../lib/firebase'
+
+@inject('store')
+@observer
+
+export default class Home extends React.Component {
+ 
+ render(){
   return (
       <Layout>
+   {console.log('posts',this.props)}
       <div className="mainBody">
         <div className="left">
           <ul className="storyContainer">
@@ -26,13 +26,13 @@ export default function Home() {
               <div className="storypp">
                 <img src="/static/users/user2.jpg" />
               </div>
-              <span className="username">amrMe</span>
+              <span className="username">Rabtorab</span>
             </li>
             <li className="story">
               <div className="storypp">
                 <img src="/static/users/user3.jpg" />
               </div>
-              <span className="username">Badguy</span>
+              <span className="username">Badgooy</span>
             </li>
             <li className="story">
               <div className="storypp">
@@ -43,9 +43,11 @@ export default function Home() {
           </ul>
 
           <div className="postContainer">
-            <Post />
-            <Post />
-            <Post />
+            <Post user='sgc0014' postImg='1'/>
+            <Post user='Rabtorab' postImg='2'/>
+            <Post user='Badgooy' postImg='3'/>
+            <Post user='sznShr' postImg='4'/>
+            <Post user='Ti123' postImg='5'/>
           </div>
         </div>
 
@@ -149,9 +151,47 @@ export default function Home() {
             justify-content: space-between;
             margin-bottom: 20px;
           }
-        
+          @media screen and (max-width: 1300px) {
+            .right{
+              display:none;
+            }
+          }
+          @media screen and (max-width: 850px) {
+            .left{
+              width:100%;
+              margin:0;
+            }
+            .search{
+              display:none;
+            }
+            .midPart{
+              width:100%;
+            }
+          }
         `}
       </style>
    </Layout>
   );
+}
+}
+
+export  async function getServerSideProps() {
+  let posts=[];
+  const db = firebase.firestore();
+  const storage = firebase.storage().ref();
+ let result = await db.collection('posts').get().then(function(querySnapshot) {
+    querySnapshot.forEach( function(doc) {
+     
+    
+       posts.push({id:doc.id,data:doc.data()})
+       
+       
+    });
+
+});
+
+  return{
+    props:{posts}
+  }
+
 }

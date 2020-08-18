@@ -46,12 +46,16 @@ export default function Navbar() {
         <ul className="nav-items">
           <li className="nav-item">
             <Link href='/'>
+            <a >
             <BsHouseDoorFill size={26} />
+            </a>
             </Link>
           </li>
           <li className="nav-item">
             <Link href="/chat">
+              <a >
               <RiSendPlaneLine size={26} />
+              </a>
             </Link>
           </li>
           <li className="nav-item">
@@ -85,7 +89,7 @@ export default function Navbar() {
                   </span>
                   <div> Setting</div>
                 </li>
-                <li className="menuItem">Log Out</li>
+                <Link href='/signIn'><a >  <li className="menuItem">Log Out</li></a></Link>
               </ul>
             </div>
           </li>
@@ -149,6 +153,7 @@ export default function Navbar() {
             padding-left: 14px;
             cursor:pointer;
           }
+         
           .instagram {
             width: 103px;
           }
@@ -193,6 +198,11 @@ export default function Navbar() {
           }
           .menuIcon {
             padding-right: 16px;
+          }
+          @media screen and (max-width: 850px) {
+            .search{
+              display:none;
+            }
           }
         `}
       </style>

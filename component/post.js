@@ -1,15 +1,18 @@
-import React from "react";
+import React,{useEffect} from "react";
 import { BsCircle, BsChat } from "react-icons/bs";
 import { FiMoreHorizontal, FiHeart } from "react-icons/fi";
 import { RiSendPlaneLine } from "react-icons/ri";
+import firebase from '../lib/firebase'
 
-function Post() {
+
+ const Post = ({postImg}) => {
   return (
     <div className="post">
+     
       <div className="topPart">
         <span className="pp">
-          {" "}
-          <img src='/static/users/user1.jpg' />
+          
+          <img src={`/static/users/user${postImg}.jpg`} />
         </span>
         <div className="subPart">
           <span className="username">sgc14</span>
@@ -19,7 +22,7 @@ function Post() {
         </div>
       </div>
       <div className="midPart">
-        <img src="./static/posts/post1.jpg" />
+        <img src={`/static/posts/post${postImg}.jpg`} />
       </div>
       <div className="bottomPart">
         <div style={{padding:"12px"}}>
@@ -135,6 +138,11 @@ function Post() {
             padding-right: 12px;
             cursor: pointer;
           }
+          @media screen and (max-width: 850px) {
+            .midPart{
+              width:100%;
+            }
+          }
         `}
       </style>
     </div>
@@ -142,3 +150,5 @@ function Post() {
 }
 
 export default Post;
+
+

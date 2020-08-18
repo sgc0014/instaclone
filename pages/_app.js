@@ -1,9 +1,7 @@
 import '../styles/globals.css'
 
-import { Provider } from 'react-redux'
-import { useStore } from './store'
-
-import Layout  from '../component/layout'
+import { Provider } from 'mobx-react'
+import { useStore } from '../store'
 
 
 export default function MyApp({ Component, pageProps }) {

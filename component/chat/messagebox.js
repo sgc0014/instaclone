@@ -27,20 +27,12 @@ function Messagebox() {
             <div className="chats">
               <div className="sender">
                 <div className="msg sendermsg">
-                  Hello. My name is sagar giri.
-                </div>
-              </div>
-              <div className="sender">
-                <div className="msg sendermsg">H</div>
-              </div>
-              <div className="receiver ">
-                <div className="msg recievermsg">
-                  Hello. My name is Leo Messi.
+                 Lorem ipsum dolor sit amet
                 </div>
               </div>
               <div className="sender">
                 <div className="msg sendermsg">
-                  Hello. My name is sagar giri.
+                 Lorem ipsum dolor sit amet
                 </div>
               </div>
               <div className="sender">
@@ -48,12 +40,27 @@ function Messagebox() {
               </div>
               <div className="receiver ">
                 <div className="msg recievermsg">
-                  Hello. My name is Leo Messi.
+                Lorem ipsum dolor sit amet
+                </div>
+              </div>
+              <div className="receiver ">
+                <div className="msg recievermsg">
+                Lorem ipsum dolor sit amet
+                </div>
+              </div>
+              <div className="receiver ">
+                <div className="msg recievermsg">
+                Lorem ipsum dolor sit amet
+                </div>
+              </div>
+              <div className="receiver ">
+                <div className="msg recievermsg">
+                Lorem ipsum dolor sit amet
                 </div>
               </div>
               <div className="sender">
                 <div className="msg sendermsg">
-                  Hello. My name is sagar giri.
+                 Lorem ipsum dolor sit amet
                 </div>
               </div>
               <div className="sender">
@@ -61,12 +68,12 @@ function Messagebox() {
               </div>
               <div className="receiver ">
                 <div className="msg recievermsg">
-                  Hello. My name is Leo Messi.
+                Lorem ipsum dolor sit amet
                 </div>
               </div>
               <div className="sender">
                 <div className="msg sendermsg">
-                  Hello. My name is sagar giri.
+                 Lorem ipsum dolor sit amet
                 </div>
               </div>
               <div className="sender">
@@ -74,7 +81,20 @@ function Messagebox() {
               </div>
               <div className="receiver ">
                 <div className="msg recievermsg">
-                  Hello. My name is Leo Messi.latest
+                Lorem ipsum dolor sit amet
+                </div>
+              </div>
+              <div className="sender">
+                <div className="msg sendermsg">
+                 Lorem ipsum dolor sit amet
+                </div>
+              </div>
+              <div className="sender">
+                <div className="msg sendermsg">H</div>
+              </div>
+              <div className="receiver ">
+                <div className="msg recievermsg">
+                Lorem ipsum dolor sit ametlatest
                 </div>
               </div>
             </div>
@@ -128,7 +148,8 @@ function Messagebox() {
                   }
                   .chats {
                     position: relative;
-                    bottom: 50px;
+                    top: 0px;
+                    margin-bottom: 63px;
                   }
                   .inputContainer {
                     background: #fff;
