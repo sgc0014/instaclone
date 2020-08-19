@@ -1,7 +1,7 @@
 import styles from "../styles/signIn.module.css";
 import { useEffect, useState } from "react";
 import { AiFillFacebook } from "react-icons/ai";
-import Input from "../component/input";
+
 
 export default function SignIn() {
   useEffect(() => {
@@ -39,10 +39,19 @@ export default function SignIn() {
               alt=""
             />
           </h1>
-
-          <Input labelName="Phone number,email or username" />
-          <Input labelName="Password" />
-
+          <div className="labelContainer">
+            <label>
+              <input className="input" required={true} />
+              <span className="labelName">Phone number,email or username</span>
+            </label>
+          </div>
+          <div className="labelContainer">
+            <label>
+              <input className="input" required={true} />
+              <span className="labelName">Password</span>
+            </label>
+          </div>
+        
           <button className='button'>Log In</button>
 
           <div className='border'>

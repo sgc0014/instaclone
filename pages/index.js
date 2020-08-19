@@ -3,25 +3,43 @@ import RecommendedUser from "../component/recommendedUser";
 import Layout from "../component/layout";
 import { observer, inject } from "mobx-react";
 import firebase from "../lib/firebase";
+import { useEffect, useState } from "react";
+
+const Home = inject("store")(
+  observer((props) => {
 
 
-@inject("store")
-@observer
-export default class Home extends React.Component {
-  state = {
-    posts:[]
-  }
-  componentDidMount() {
-    this.setState({posts:this.props.posts})
-  }
-  render() {
+    const [posts, setposts] = useState([]);
+    const [user, setuser] = useState([]);
+
+
+    useEffect(() => {
+      setposts(props.posts);
+      const unsubscribe = firebase.auth().onAuthStateChanged(authUser => {
+        if(authUser){
+          setuser(authUser)
+        }
+        else{
+          setuser(null)
+        }
+      })
+      return () => {
+        unsubscribe();
+      }
+      
+    },[user]);
+  const  handleLogOut = (e) => {
+      firebase.auth().signOut()
+      e.preventDefault();
+    }
     return (
       <Layout>
-     
+      
         <div className="mainBody">
+          {console.log(user)}
           <div className="left">
             <ul className="storyContainer">
-              <li className="story">
+              <li className="story"  onClick={handleLogOut}>
                 <div className="storypp">
                   <img src="/static/users/user1.jpg" />
                 </div>
@@ -48,16 +66,16 @@ export default class Home extends React.Component {
             </ul>
 
             <div className="postContainer">
-              {this.state.posts &&
-               this.state.posts.map((post,i=post.id) =>    <Post
+              {posts &&
+                posts.map((post, i = post.id) => (
+                  <Post
                     key={i}
                     caption={post.caption}
                     imgArr={post.imgArr}
                     likes={post.likes}
                     author={post.author}
                   />
-              )}
-           
+                ))}
             </div>
           </div>
 
@@ -183,9 +201,9 @@ export default class Home extends React.Component {
         </style>
       </Layout>
     );
-  }
-}
-
+  })
+);
+export default Home;
 export async function getServerSideProps() {
   let posts = [];
   const db = firebase.firestore();
@@ -203,12 +221,12 @@ export async function getServerSideProps() {
     .get()
     .then(function (querySnapshot) {
       querySnapshot.forEach(function (doc) {
-        let data = {...doc.id,...doc.data()}
+        let data = { ...doc.id, ...doc.data() };
         posts.push(data);
       });
     });
 
   return {
-    props: { posts},
+    props: { posts },
   };
 }

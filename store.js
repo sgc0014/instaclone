@@ -6,19 +6,46 @@ import firebase from './lib/firebase'
 useStaticRendering(typeof window === 'undefined')
 
 let store
-
+const db = firebase.firestore();
+const auth =  firebase.auth();
 class Store {
   @observable lastUpdate = 0
   @observable light = false
-  @observable array = ['false']
+  @observable userInfo = null
   @observable async getPosts(){
-     const db = firebase.firestore()
+    
    const result = await db.collection('posts').get().then(snapshot => {
      
       snapshot.forEach(doc => {this.array.push(doc.data())})
      
    })
   }
+
+  async signInWithEmailPassword(userData){
+    let {email,username,fullName,password} = userData
+  
+  const result = await  auth.createUserWithEmailAndPassword(email,password)
+    .then((authUser) => {
+    if(authUser){
+      auth.onAuthStateChanged(user => {
+        if(user){
+          user.updateProfile({
+            displayName:username
+          });
+         db.collection('users').doc(user.uid).set({email,username,fullName})
+        }
+      })
+    }
+    })
+    .catch(function(error) {
+      // Handle Errors here.
+      var errorCode = error.code;
+      var errorMessage = error.message;
+      console.log(errorMessage)
+      // ...
+    });
+  }
+
  
 }
 
