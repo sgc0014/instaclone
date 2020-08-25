@@ -25,7 +25,7 @@ const SignUp = inject("store")(
       }
     };
     const handleSubmit = () => {
-      props.store.signInWithEmailPassword({
+      props.store.createUserWithEmailAndPassword({
         email,
         username,
         fullName,

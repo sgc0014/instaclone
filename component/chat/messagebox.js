@@ -2,7 +2,7 @@ import React from 'react';
 import { GrEmoji } from "react-icons/gr";
 import { AiOutlineInfoCircle } from "react-icons/ai";
 
-function Nomsg() {
+function EmptyMsgBox() {
     return (
       <div className="right emptyMsgBox">
         <h1 style={{ fontWeight: "400" }}>Your Messages</h1>
@@ -15,10 +15,12 @@ function Nomsg() {
   }
 
 function Messagebox() {
-    return (
+   const router = useRouter()
+
+  return (
         <div className="right">
           <div className="rightHeader">
-            <div className="username"> leoMessi</div>
+  <div className="username"> Leo Messi</div>
             <div className="icon">
               <AiOutlineInfoCircle size={"22px"} />
             </div>
