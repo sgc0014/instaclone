@@ -1,7 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "../styles/signUp.module.css";
 import { AiFillFacebook } from "react-icons/ai";
 import { observer, inject } from "mobx-react";
+import { PulseSpinner } from "react-spinners-kit";
+import { useUser } from "../context/userContext";
+import  Router  from "next/router";
 
 const SignUp = inject("store")(
   observer((props) => {
@@ -9,7 +12,17 @@ const SignUp = inject("store")(
     const [username, setusername] = useState();
     const [fullName, setfullName] = useState();
     const [password, setpassword] = useState();
-
+    let [loading,setloading] = useState(false);
+    const { loadingUser, user } = useUser();
+  
+    useEffect(() => {
+      if(!loadingUser){
+        if(user){
+          Router.push('/')
+        }
+        console.log(user)
+      }
+    },[loadingUser,user])
     const handleChange = (e) => {
       let inputName = e.target.name;
       let setValue = e.target.value;
@@ -24,13 +37,15 @@ const SignUp = inject("store")(
         setpassword(setValue);
       }
     };
-    const handleSubmit = () => {
-      props.store.createUserWithEmailAndPassword({
+    const handleSubmit =async () => {
+      setloading(true)
+     let createAc =  props.store.createUserWithEmailAndPassword({
         email,
         username,
         fullName,
         password,
       });
+      setloading(false)
     };
 
     return (
@@ -57,6 +72,9 @@ const SignUp = inject("store")(
             </div>
 
             <div className="labelContainer">
+              {props.store.error && (
+                <div className="error">{props.store.error}</div>
+              )}
               <label>
                 <input
                   name="email"
@@ -100,8 +118,8 @@ const SignUp = inject("store")(
                 <span className="labelName">Password</span>
               </label>
             </div>
-            <button type="submit" className="button" onClick={handleSubmit}>
-              Sign Up
+            <button type="submit" className="button" onClick={handleSubmit } disabled={loading} >
+            {loading? <PulseSpinner size={20} color="#fff" />  :'Sign Up'}
             </button>
             <p className={styles.signUpTerm}>
               By signing up, you agree to our Terms , Data Policy and Cookies

@@ -71,12 +71,16 @@ export default function Navbar() {
            
             <div className={userToggler? `userdropDownMenu visible`: `userdropDownMenu`} >
               <ul className="menuItems">
+              <Link href='/singleProfile/sgc0014'><a>
                 <li className="menuItem">
+                
                   <span className="menuIcon">
                     <FaRegUserCircle size={"16px"} />{" "}
                   </span>{" "}
                   <div>Profile</div>
+                  
                 </li>
+                </a></Link>
                 <li className="menuItem">
                   <span className="menuIcon">
                     <GrSave size={"16px"} />{" "}

@@ -1,9 +1,13 @@
 import React from "react";
 import Userlist from "../component/chat/userlist";
 import Layout from "../component/layout";
+import { ProtectRoute } from "../component/protectRoute";
+import { useUser } from "../context/userContext";
+import Loading from "../component/loading";
 
 const Chat = () => {
-  return (
+  const { loadingUser, user } = useUser();
+  return  !loadingUser? <>
     <Layout>
       <div className="chatContainer">
         
@@ -61,6 +65,6 @@ const Chat = () => {
         `}
       </style>
     </Layout>
-  );
+    </>: <Loading/>
 };
-export default Chat;
+export default ProtectRoute( Chat);

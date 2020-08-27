@@ -60,6 +60,11 @@ img{
 .input:valid + .labelName {
   transform: scale(0.8333) translateY(-10px);
 }
+/* error */
+.error{
+  font-size: 13px;
+  color: #ee3131;
+}
 /* sign in and sign up page */
 
 .container {
@@ -91,8 +96,16 @@ img{
   background: #0095f6;
   color: #ffffff;
   border: none;
+  display:flex;
+  justify-content: center;
   border-radius: 4px;
   margin-top: 10px;
+  cursor: pointer;
+  min-height: 26px;
+  align-items: center;
+}
+.button:disabled{
+  background: #0068ac;
 }
 
 .smallBox {

@@ -10,6 +10,8 @@ const db = firebase.firestore();
 const auth = firebase.auth();
 class Store {
   @observable chats = [];
+  @observable posts = [];
+  @observable error = null
 
   @action async getMsg(user, otherUser) {
     const msg = await db
@@ -27,9 +29,24 @@ class Store {
         })
       );
   }
+  @action async getPosts() {
+    const post = await db
+      .collection("posts")
+      .orderBy("timeStamp", "desc")
+      .onSnapshot(
+        action("success", (querySnap) => {
+          let data = [];
+          let t = querySnap.forEach((doc) => {
+            data.push(doc.data());
+          });
+          this.posts = data;
+        })
+      );
+  }
   async createUserWithEmailAndPassword(userData) {
     let { email, username, fullName, password } = userData;
     let photoUrl = "/static/users/user1.jpg";
+    let err
 
     const result = await auth
       .createUserWithEmailAndPassword(email, password)
@@ -54,13 +71,15 @@ class Store {
         // Handle Errors here.
         var errorCode = error.code;
         var errorMessage = error.message;
-        console.log(errorMessage);
+        err=errorMessage
         // ...
       });
+  this.error = err;
+  console.log(this.error)
   }
   async signInUserWithEmailAndPassword(userData) {
     let { email, password } = userData;
-
+    let err
     const result = await auth
       .signInWithEmailAndPassword(email, password)
       .then((authUser) => {
@@ -70,10 +89,13 @@ class Store {
         // Handle Errors here.
         var errorCode = error.code;
         var errorMessage = error.message;
-        console.log(errorMessage);
+       err=errorMessage
         // ...
       });
+  this.error = err;
+ 
   }
+  
 }
 
 function initializeStore(initialData = null) {

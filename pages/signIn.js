@@ -2,23 +2,49 @@ import styles from "../styles/signIn.module.css";
 import { useEffect, useState } from "react";
 import { AiFillFacebook } from "react-icons/ai";
 import { inject, observer } from "mobx-react";
+import { useUser } from "../context/userContext";
+import { ProtectRoute } from "../component/protectRoute";
+import useInterval from "../utils/useInterval";
+import { PulseSpinner } from "react-spinners-kit";
+
 
 const SignIn = inject("store")(
   observer((props) => {
-    useEffect(() => {
-      let index = 0;
-      let imageElem = document.getElementsByClassName("image");
-      imageElem[index].classList.add("visibility");
-      setInterval(() => {
-        imageElem[index].classList.remove("visibility");
+    const { loadingUser,user } = useUser();
+    let [index, setindex] = useState(0);
+    let [delay, setDelay] = useState(3000);
+    let [loading,setloading] = useState(false);
+   
 
-        index++;
-        if (index > 4) {
-          index = 0;
+//prevent running document server side rendering
+    const isBrowser = () => typeof window !== "undefined"
+    
+    let imageElem = isBrowser() && document.getElementsByClassName('image')
+
+    useEffect(() => {
+      if(!loadingUser){
+        if(user){
+          Router.push('/')
         }
-        imageElem[index].classList.add("visibility");
-      }, 3000);
+        console.log(user)
+      }
+    })
+    useEffect(() => {
+    
+      imageElem[index].classList.add("visibility");
     }, []);
+    //clear interval on route change
+    useInterval(() => {
+      imageElem[index].classList.remove("visibility");
+
+      setindex(index++);
+      if (index > 4) {
+       
+        setindex(index=0);
+      }
+ 
+      imageElem[index].classList.add("visibility");
+    }, delay);
     const [Email, setEmail] = useState("");
     const [Password, setPassword] = useState("");
 
@@ -29,10 +55,16 @@ const SignIn = inject("store")(
 
       setPassword(e.target.value);
     };
-    const handleSubmit = (e) => {
+    const handleSubmit = async(e) => {
       e.preventDefault();
-      props.store.signInUserWithEmailAndPassword({email:Email, password:Password})
-    }
+      setloading(true)
+      console.log(loading)
+     let signIn = await  props.store.signInUserWithEmailAndPassword({
+        email: Email,
+        password: Password,
+      });
+      setloading(false)
+    };
     return (
       <div className="container">
         <div className="phone">
@@ -51,6 +83,11 @@ const SignIn = inject("store")(
               <img className="instagram" src="/static/instagram.png" alt="" />
             </h1>
             <div className="labelContainer">
+            
+              {props.store.error && (
+                <div className="error">{props.store.error}</div>
+              )}
+
               <label>
                 <input
                   name="email"
@@ -70,13 +107,14 @@ const SignIn = inject("store")(
                   className="input"
                   required={true}
                   onChange={handleChange}
+                  min="6"
                 />
                 <span className="labelName">Password</span>
               </label>
             </div>
 
-            <button type="submit" className="button">
-              Log In
+            <button type="submit" className="button" disabled={loading}>
+           {loading? <PulseSpinner size={20} color="#fff" />  :'Log In'}
             </button>
 
             <div className="border">
@@ -141,4 +179,4 @@ const SignIn = inject("store")(
     );
   })
 );
-export default SignIn;
+export default ProtectRoute( SignIn);

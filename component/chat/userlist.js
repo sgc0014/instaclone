@@ -18,14 +18,12 @@ function Userlist() {
         </div>
       </div>
       <div className="chatList">
-        {
-      
-        user &&
+        {user &&
           otherUsers &&
           otherUsers
             .filter((userDoc) => userDoc.username !== user.username)
-            .map((user,i=user.username) => (
-              <Link href={`/singleChat/${user.username}`} >
+            .map((user, i = user.username) => (
+              <Link href={`/singleChat/${user.username}`}>
                 <a>
                   <div className="user" key={i}>
                     <div className="userPp">
