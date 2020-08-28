@@ -9,11 +9,12 @@ import { AiOutlineSetting } from "react-icons/ai";
 import { FaRegUserCircle } from "react-icons/fa";
 import { GrSave } from "react-icons/gr";
 import Link from 'next/link'
+import {useUser} from '../context/userContext'
 
 export default function Navbar() {
   const [userToggler, setuserToggler] = useState(false);
   const [usernotificationToggler, setusernotificationToggler] = useState(false);
-
+  const { loadingUser, user } = useUser();
   function dropdownToggler(e) {
     e.preventDefault();
    
@@ -66,7 +67,7 @@ export default function Navbar() {
           </li>
           <li  className="nav-item">
             <div   className="user">
-              <img id='userToggler' onClick={dropdownToggler} src="/static/users/user1.jpg" />
+              <img id='userToggler' onClick={dropdownToggler} src={user.photoUrl} />
             </div>
            
             <div className={userToggler? `userdropDownMenu visible`: `userdropDownMenu`} >
@@ -107,7 +108,7 @@ export default function Navbar() {
             position: fixed;
             width: 100%;
             top: 0;
-            z-index:9999;
+            z-index:10;
         }
           }
           .center {

@@ -20,7 +20,7 @@ export default function UserContextComp({ children }) {
           const { uid, displayName, email, photoURL } = user
         
           const userDoc = await firebase.firestore().doc(`users/${uid}`).get().then(data => data.data())
-          setUser(userDoc)
+          setUser({...userDoc,id:uid})
         } else {
           setUser(null)
           setAuthentication(false)

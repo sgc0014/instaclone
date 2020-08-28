@@ -43,6 +43,27 @@ class Store {
         })
       );
   }
+  async changePP(data){
+console.log('1',data)
+let err
+    const upload = await firebase.storage().ref().child(`/users/${data.pp.name}`).put(data.pp).then(function(snap){
+      console.log('2')
+      snap.ref.getDownloadURL().then(function(downloadURL) {
+        console.log('File available at', downloadURL);
+        firebase.firestore().collection('users').doc(`${data.id}`).update({photoUrl:`${downloadURL}`})
+
+      });
+    
+  }) .catch(function (error) {
+    
+    var errorCode = error.code;
+    var errorMessage = error.message;
+   err=errorMessage
+    
+  });
+  this.error = err;
+  console.log(this.error)
+  }
   async createUserWithEmailAndPassword(userData) {
     let { email, username, fullName, password } = userData;
     let photoUrl = "/static/users/user1.jpg";
