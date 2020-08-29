@@ -18,24 +18,12 @@ import firebase from "../../lib/firebase";
 const Username = inject("store")(
   observer((props) => {
     const { loadingUser, user } = useUser();
-    const [userinfo, setuserinfo] = useState();
+    const {userInfo} = props.store
     useEffect(() => {
       if (user) {
         props.store.getPosts();
-        const getUser = firebase
-          .firestore()
-          .collection(`users`)
-          .where("username", "==", `${props.username}`)
-          .get()
-          .then(function (querySnapshot) {
-            console.log(querySnapshot);
-            querySnapshot.forEach((doc) => {
-              setuserinfo(doc.data());
-            });
-          })
-          .catch((err) => {
-            console.log(err);
-          });
+        props.store.getUserProfile(props.username)
+       
       }
     }, [loadingUser, user]);
 
@@ -43,10 +31,10 @@ const Username = inject("store")(
 
     return (
       user &&
-      userinfo && (
+      userInfo && (
         <>
-          {console.log(userinfo)}
-          {user.username == userinfo.username ? (
+          {console.log(userInfo)}
+          {user.username == userInfo.username ? (
             <Uploadpp open={open} />
           ) : (
             <Uploadpp open={false} />
@@ -56,26 +44,30 @@ const Username = inject("store")(
             <div className="mainProfile">
               <div className="profileContainer">
                 <div className="userPP">
-                  <img src={userinfo.photoUrl} onClick={() => setopen(!open)} />
+                  <img src={userInfo.photoUrl} onClick={() => setopen(!open)} />
                 </div>
                 <div className="userInfo">
                   <div className="topLevel">
-                    <h2 className="profileUsername">{userinfo.username}</h2>
+                    <h2 className="profileUsername">{userInfo.username}</h2>
                     <div className="btnContainer">
+                      <Link href='/account/edit'>
+                      <a>
                       <button
                         className={
-                          user.username == userinfo.username
+                          user.username == userInfo.username
                             ? "editButton visible"
                             : "editButton"
                         }
                       >
                         Edit Profile
-                      </button>{" "}
+                      </button>
+                      </a>
+                      </Link>
                     </div>
                     <div className="btnContainer">
                       <div
                         className={
-                          user.username == userinfo.username
+                          user.username == userInfo.username
                             ? "extraSetting visible"
                             : "extraSetting"
                         }
@@ -86,7 +78,7 @@ const Username = inject("store")(
                   </div>
                   <div className="midLevel">
                     <div className="postNo">
-                      <span className="bold">{userinfo.postNo} </span> posts
+                      <span className="bold">{userInfo.postNo} </span> posts
                     </div>
                     <div className="followers">
                       <span className="bold">4 </span> followers
@@ -96,7 +88,7 @@ const Username = inject("store")(
                     </div>
                   </div>
                   <div className="lowLevel">
-                    <div className="fullName bold">{userinfo.fullName}</div>
+                    <div className="fullName bold">{userInfo.fullName}</div>
                     <div className="bio">Hello</div>
                   </div>
                 </div>

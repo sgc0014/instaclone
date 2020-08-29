@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FiSearch } from "react-icons/fi";
 import { IoIosCloseCircle } from "react-icons/io";
 import { BsHouseDoorFill, BsCircle } from "react-icons/bs";
@@ -15,6 +15,10 @@ export default function Navbar() {
   const [userToggler, setuserToggler] = useState(false);
   const [usernotificationToggler, setusernotificationToggler] = useState(false);
   const { loadingUser, user } = useUser();
+
+  useEffect(() => {
+
+  })
   function dropdownToggler(e) {
     e.preventDefault();
 
@@ -25,7 +29,7 @@ export default function Navbar() {
     setusernotificationToggler(!usernotificationToggler);
   }
 
-  return (
+  return (user &&
     <div className="navbar">
       <div className="center">
         <h1 className="instaHeader">

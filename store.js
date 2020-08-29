@@ -12,6 +12,7 @@ class Store {
   @observable chats = [];
   @observable posts = [];
   @observable error = null;
+  @observable userInfo = null;
 
   @action async getMsg(user, otherUser) {
     const msg = await db
@@ -69,6 +70,36 @@ class Store {
       });
     this.error = err;
     console.log(this.error);
+  }
+  async getUserProfile(username){
+  await  firebase
+          .firestore()
+          .collection(`users`)
+          .where("username", "==", `${username}`)
+          .get()
+          .then( action("success", (querySnap) => {
+           
+            querySnap.forEach((doc) => {
+              this.userInfo=doc.data()
+            });
+          }))
+          .catch((err) => {
+            console.log(err);
+          });
+  }
+  async updateUserProfile(name,username,email,phoneNo,gender,bio,id){
+    await  firebase
+    .firestore()
+    .collection(`users`)
+    .doc(`${id}`)
+    .update({name,username,email,phoneNo,gender,bio})
+    .then(function() {
+      console.log("Document successfully updated!");
+  })
+  .catch(function(error) {
+      // The document probably doesn't exist.
+      console.error("Error updating document: ", error);
+  });
   }
   async createUserWithEmailAndPassword(userData) {
     let { email, username, fullName, password } = userData;

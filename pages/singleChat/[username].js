@@ -20,6 +20,7 @@ const Username = inject("store")(
       if (!loadingUser && !loadingotherUser) {
         props.store.getMsg(user.username, replierUsername);
       }
+      
     }, [loadingotherUser, user, otherUsers, loadingUser]);
 
     const handleChange = (e) => {
@@ -56,6 +57,8 @@ const Username = inject("store")(
         });
 
       setoutgoingMsg("");
+      var elem = document.getElementById('chatScreen');
+      elem.scrollBottom = elem.scrollHeight;
     };
 
     return (
@@ -72,7 +75,7 @@ const Username = inject("store")(
               </div>
             </div>
             <form className="chatField" onSubmit={handleSubmit}>
-              <div className="chats">
+              <div id='chatScreen' className="chats">
                 {chats &&
                   chats.map((msg, i) =>
                     msg.senderUsername == user.username ? (
