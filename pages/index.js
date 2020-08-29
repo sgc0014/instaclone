@@ -14,11 +14,8 @@ const Home = inject("store")(
     const [posts, setposts] = useState([]);
 
     useEffect(() => {
-     
-      
       if (user) {
-      props.store.getPosts()
-      
+        props.store.getPosts();
       }
     }, [loadingUser, user]);
 
@@ -26,78 +23,80 @@ const Home = inject("store")(
       firebase.auth().signOut();
       e.preventDefault();
     };
-    return !loadingUser?user && <>
-  
-      <Layout>
-        {console.log(props.store.posts)}
-        <div className="mainBody">
-          <div className="left">
-            <ul className="storyContainer">
-              <li className="story" onClick={handleLogOut}>
-                <div className="storypp">
-                  <img src="/static/users/user1.jpg" />
-                </div>
-                <span className="username">sgc14</span>
-              </li>
-              <li className="story">
-                <div className="storypp">
-                  <img src="/static/users/user2.jpg" />
-                </div>
-                <span className="username">Rabtorab</span>
-              </li>
-              <li className="story">
-                <div className="storypp">
-                  <img src="/static/users/user3.jpg" />
-                </div>
-                <span className="username">Badgooy</span>
-              </li>
-              <li className="story">
-                <div className="storypp">
-                  <img src="/static/users/user4.jpg" />
-                </div>
-                <span className="username">Szkshr</span>
-              </li>
-            </ul>
+    return !loadingUser ? (
+      user && (
+        <>
+          <Layout>
+           
+            <div className="mainBody">
+              <div className="left">
+                <ul className="storyContainer">
+                  <li className="story" onClick={handleLogOut}>
+                    <div className="storypp">
+                      <img src="/static/users/user1.jpg" />
+                    </div>
+                    <span className="username">sgc14</span>
+                  </li>
+                  <li className="story">
+                    <div className="storypp">
+                      <img src="/static/users/user2.jpg" />
+                    </div>
+                    <span className="username">Rabtorab</span>
+                  </li>
+                  <li className="story">
+                    <div className="storypp">
+                      <img src="/static/users/user3.jpg" />
+                    </div>
+                    <span className="username">Badgooy</span>
+                  </li>
+                  <li className="story">
+                    <div className="storypp">
+                      <img src="/static/users/user4.jpg" />
+                    </div>
+                    <span className="username">Szkshr</span>
+                  </li>
+                </ul>
 
-            <div className="postContainer">
-              {props.store.posts &&
-               props.store.posts.map((post, i = post.id) => (
-                  <Post
-                    key={i}
-                    caption={post.caption}
-                    imgArr={post.imgArr}
-                    likes={post.likes}
-                    author={post.author}
-                  />
-                ))}
-            </div>
-          </div>
-
-          <div className="right">
-            <div className="rightContainer">
-              <div className="mainUser">
-                <div className="mainUserPp">
-                  <img src={user && user.photoUrl} />
-                </div>
-                <div className="mainUsername">
-                  {user && user.username} <span> {user && user.fullName}</span>
+                <div className="postContainer">
+                  {props.store.posts &&
+                    props.store.posts.map((post, i = post.id) => (
+                      <Post
+                        key={i}
+                        caption={post.caption}
+                        imgArr={post.imgArr}
+                        likes={post.likes}
+                        author={post.author}
+                      />
+                    ))}
                 </div>
               </div>
-              <div className="suggestion">
-                <div className="suggestionHeader">
-                  <div style={{ color: "#999" }}>Suggestion for you</div>
-                  <div>See all</div>
-                </div>
-                <div className="recommenderUsers">
-                  <RecommendedUser />
+
+              <div className="right">
+                <div className="rightContainer">
+                  <div className="mainUser">
+                    <div className="mainUserPp">
+                      <img src={user && user.photoUrl} />
+                    </div>
+                    <div className="mainUsername">
+                      {user && user.username}{" "}
+                      <span> {user && user.fullName}</span>
+                    </div>
+                  </div>
+                  <div className="suggestion">
+                    <div className="suggestionHeader">
+                      <div style={{ color: "#999" }}>Suggestion for you</div>
+                      <div>See all</div>
+                    </div>
+                    <div className="recommenderUsers">
+                      <RecommendedUser />
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        </div>
 
-        <style jsx>
-          {`
+            <style jsx>
+              {`
         
           .mainBody {
             max-width: 935px;
@@ -192,11 +191,13 @@ const Home = inject("store")(
             }
           }
         `}
-        </style>
-      </Layout>
-      </>: <Loading/>
-        
+            </style>
+          </Layout>
+        </>
+      )
+    ) : (
+      <Loading />
+    );
   })
 );
 export default ProtectRoute(Home);
-

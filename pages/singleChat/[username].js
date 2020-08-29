@@ -6,10 +6,10 @@ import { AiOutlineInfoCircle } from "react-icons/ai";
 import firebase from "../../lib/firebase";
 import { inject, observer } from "mobx-react";
 import { useUser } from "../../context/userContext";
+import { RiChatNewLine } from "react-icons/ri";
 
 const Username = inject("store")(
   observer((props) => {
-    
     const [outgoingMsg, setoutgoingMsg] = useState("");
     const [error, seterror] = useState("Error");
     const { loadingUser, user, otherUsers, loadingotherUser } = useUser();
@@ -18,7 +18,6 @@ const Username = inject("store")(
 
     useEffect(() => {
       if (!loadingUser && !loadingotherUser) {
-        console.log(replierUsername);
         props.store.getMsg(user.username, replierUsername);
       }
     }, [loadingotherUser, user, otherUsers, loadingUser]);
@@ -35,6 +34,7 @@ const Username = inject("store")(
         msgContent: outgoingMsg,
         senderUsername: user.username,
         timeStamp: firebase.firestore.Timestamp.now(),
+        readStatus: false,
       };
       let sendMsg = await firebase
         .firestore()
@@ -52,9 +52,7 @@ const Username = inject("store")(
             .add(finalMsg);
         })
         .catch((err) => {
-         return(
-           error
-         )
+          return error;
         });
 
       setoutgoingMsg("");
@@ -80,11 +78,10 @@ const Username = inject("store")(
                     msg.senderUsername == user.username ? (
                       <div className="outgoing" key={i}>
                         <div className="msg outgoingmsg">{msg.msgContent}</div>
-                        {console.log(msg)}
                       </div>
                     ) : (
                       <div className="incoming ">
-                        {console.log(msg)}
+                        {(msg.readStatus = true)}
                         <div className="userImg">
                           <img src={"/static/users/defaultUser.jpg"} />{" "}
                         </div>

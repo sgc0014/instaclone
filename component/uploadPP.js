@@ -7,34 +7,40 @@ const Uploadpp = inject("store")(
   observer((props) => {
     const inputEl = useRef(null);
 
-    
     const [open, setOpen] = useState(false);
     const [loading, setloading] = useState(false);
     const { loadingUser, user } = useUser();
     useEffect(() => {
       console.log("props.open", props.open);
       setOpen(props.open);
-     
     }, [props.open]);
 
     const upload = async (e) => {
-     let profilePic = e.target.files[0]
+      let profilePic = e.target.files[0];
       if (profilePic) {
-        setloading(true)
-      const upload = await props.store.changePP({pp:profilePic,id:user.id})
-      setloading(true)
-      setOpen(false)
-      console.log('done')
+        setloading(true);
+        const upload = await props.store.changePP({
+          pp: profilePic,
+          id: user.id,
+        });
+        setloading(true);
+        setOpen(false);
+        console.log("done");
       }
     };
     return (
       <div className={open ? `profilePicChange open` : "profilePicChange"}>
-         
         <div className="mainPart">
           <h2
-            style={{ fontSize: "18px", fontWeight: "600", textAlign: "center" , display:"flex",justifyContent:"center"}}
+            style={{
+              fontSize: "18px",
+              fontWeight: "600",
+              textAlign: "center",
+              display: "flex",
+              justifyContent: "center",
+            }}
           >
-            {loading?<GooSpinner color={"#000"}/>:'Change Profile Photo' } 
+            {loading ? <GooSpinner color={"#000"} /> : "Change Profile Photo"}
           </h2>
           <form className="ppChangeForm">
             <input
@@ -48,13 +54,17 @@ const Uploadpp = inject("store")(
           </form>
           <button
             className="uploadButton"
-            style={{ color: "#0095f9",textAlign:"center" }}
+            style={{ color: "#0095f9", textAlign: "center" }}
             onClick={() => console.log(inputEl.current.click())}
             disabled={loading}
           >
             Upload Photo
           </button>
-          <button className="uploadButton" style={{ color: "#f04956" }} disabled={loading}>
+          <button
+            className="uploadButton"
+            style={{ color: "#f04956" }}
+            disabled={loading}
+          >
             Remove Current Photo
           </button>
           <button
@@ -97,8 +107,8 @@ const Uploadpp = inject("store")(
               border: none;
               min-height: 48px;
               font-weight: 700;
-              display:flex;
-              justify-content:center;
+              display: flex;
+              justify-content: center;
               align-items: center;
             }
           `}

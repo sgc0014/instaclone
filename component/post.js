@@ -1,17 +1,14 @@
-import React,{useEffect} from "react";
+import React, { useEffect } from "react";
 import { BsCircle, BsChat } from "react-icons/bs";
 import { FiMoreHorizontal, FiHeart } from "react-icons/fi";
 import { RiSendPlaneLine } from "react-icons/ri";
-import firebase from '../lib/firebase'
+import firebase from "../lib/firebase";
 
-
- const Post = ({author,imgArr,likes,caption}) => {
+const Post = ({ author, imgArr, likes, caption }) => {
   return (
     <div className="post">
-     
       <div className="topPart">
         <span className="pp">
-          
           <img src={`/static/users/user1.jpg`} />
         </span>
         <div className="subPart">
@@ -25,7 +22,7 @@ import firebase from '../lib/firebase'
         <img src={`${imgArr[0]}`} />
       </div>
       <div className="bottomPart">
-        <div style={{padding:"12px"}}>
+        <div style={{ padding: "12px" }}>
           <div className="interact">
             <div className="leftIcon">
               <span className="Lefticon">
@@ -43,9 +40,7 @@ import firebase from '../lib/firebase'
             </span>
           </div>
           <div>
-            <span style={{ margin:'5px 0' }}>
-              {likes} Likes
-            </span>
+            <span style={{ margin: "5px 0" }}>{likes} Likes</span>
           </div>
 
           <div style={{ marginBottom: "5px" }} className="caption">
@@ -72,13 +67,13 @@ import firebase from '../lib/firebase'
             margin-bottom: 60px;
           }
           .pp {
-            width:33px;
-            height:33px;
+            width: 33px;
+            height: 33px;
           }
-          .pp>img{
-            width:100%;
-            height:100%;
-            border-radius:50%;
+          .pp > img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
           }
           .topPart {
             display: flex;
@@ -91,7 +86,7 @@ import firebase from '../lib/firebase'
             justify-content: space-between;
             margin-left: 10px;
           }
-         
+
           .midPart {
             width: 633px;
           }
@@ -103,8 +98,8 @@ import firebase from '../lib/firebase'
             display: flex;
             justify-content: space-between;
           }
-          .Lefticon{
-            margin-right:14px;
+          .Lefticon {
+            margin-right: 14px;
           }
           .username {
             margin-right: 5px;
@@ -115,7 +110,7 @@ import firebase from '../lib/firebase'
             letter-spacing: 0.2px;
             color: #b4a1c5;
           }
-         
+
           .userCommentBox {
             position: relative;
             border-top: 1px solid #efefef;
@@ -139,16 +134,14 @@ import firebase from '../lib/firebase'
             cursor: pointer;
           }
           @media screen and (max-width: 850px) {
-            .midPart{
-              width:100%;
+            .midPart {
+              width: 100%;
             }
           }
         `}
       </style>
     </div>
   );
-}
+};
 
 export default Post;
-
-

@@ -13,47 +13,80 @@ import { FaComment } from "react-icons/fa";
 import { inject, observer } from "mobx-react";
 import Link from "next/link";
 import Uploadpp from "../../component/uploadPP";
+import firebase from "../../lib/firebase";
 
-const Sgc = inject("store")(
+const Username = inject("store")(
   observer((props) => {
     const { loadingUser, user } = useUser();
+    const [userinfo, setuserinfo] = useState();
     useEffect(() => {
       if (user) {
         props.store.getPosts();
+        const getUser = firebase
+          .firestore()
+          .collection(`users`)
+          .where("username", "==", `${props.username}`)
+          .get()
+          .then(function (querySnapshot) {
+            console.log(querySnapshot);
+            querySnapshot.forEach((doc) => {
+              setuserinfo(doc.data());
+            });
+          })
+          .catch((err) => {
+            console.log(err);
+          });
       }
     }, [loadingUser, user]);
 
-  
     const [open, setopen] = useState(false);
-   
 
     return (
-      user && (
+      user &&
+      userinfo && (
         <>
-         <Uploadpp open={open}/>
+          {console.log(userinfo)}
+          {user.username == userinfo.username ? (
+            <Uploadpp open={open} />
+          ) : (
+            <Uploadpp open={false} />
+          )}
           <Layout>
             {console.log(open)}
             <div className="mainProfile">
               <div className="profileContainer">
                 <div className="userPP">
-                  <img src={user.photoUrl} onClick={() => setopen(!open)} />
-                 
+                  <img src={userinfo.photoUrl} onClick={() => setopen(!open)} />
                 </div>
                 <div className="userInfo">
                   <div className="topLevel">
-                    <h2 className="profileUsername">{user.username}</h2>
+                    <h2 className="profileUsername">{userinfo.username}</h2>
                     <div className="btnContainer">
-                      <button className="editButton">Edit Profile</button>{" "}
+                      <button
+                        className={
+                          user.username == userinfo.username
+                            ? "editButton visible"
+                            : "editButton"
+                        }
+                      >
+                        Edit Profile
+                      </button>{" "}
                     </div>
                     <div className="btnContainer">
-                      <div className="extraSetting">
+                      <div
+                        className={
+                          user.username == userinfo.username
+                            ? "extraSetting visible"
+                            : "extraSetting"
+                        }
+                      >
                         <GiCog size={20} />
                       </div>
                     </div>
                   </div>
                   <div className="midLevel">
                     <div className="postNo">
-                      <span className="bold">4 </span> posts
+                      <span className="bold">{userinfo.postNo} </span> posts
                     </div>
                     <div className="followers">
                       <span className="bold">4 </span> followers
@@ -63,7 +96,7 @@ const Sgc = inject("store")(
                     </div>
                   </div>
                   <div className="lowLevel">
-                    <div className="fullName bold">{user.fullName}</div>
+                    <div className="fullName bold">{userinfo.fullName}</div>
                     <div className="bio">Hello</div>
                   </div>
                 </div>
@@ -142,7 +175,7 @@ const Sgc = inject("store")(
                 max-width: 935px;
                 margin: 0 auto;
               }
-            
+
               .profileContainer {
                 display: flex;
                 width: 100%;
@@ -173,12 +206,17 @@ const Sgc = inject("store")(
               }
               .extraSetting {
                 border: none;
+                display: none;
               }
               .editButton {
                 background: #fafafa;
                 border: 1px solid #d9d9d9;
                 padding: 8px;
                 border-radius: 4px;
+                display: none;
+              }
+              .visible {
+                display: flex;
               }
               .midLevel {
                 display: flex;
@@ -354,4 +392,13 @@ const Sgc = inject("store")(
   })
 );
 
-export default Sgc;
+export default Username;
+
+export async function getServerSideProps({ params }) {
+  const username = params.username;
+  return {
+    props: {
+      username,
+    },
+  };
+}

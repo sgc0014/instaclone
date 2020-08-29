@@ -7,30 +7,27 @@ import { ProtectRoute } from "../component/protectRoute";
 import useInterval from "../utils/useInterval";
 import { PulseSpinner } from "react-spinners-kit";
 
-
 const SignIn = inject("store")(
   observer((props) => {
-    const { loadingUser,user } = useUser();
+    const { loadingUser, user } = useUser();
     let [index, setindex] = useState(0);
     let [delay, setDelay] = useState(3000);
-    let [loading,setloading] = useState(false);
-   
+    let [loading, setloading] = useState(false);
 
-//prevent running document server side rendering
-    const isBrowser = () => typeof window !== "undefined"
-    
-    let imageElem = isBrowser() && document.getElementsByClassName('image')
+    //prevent running document server side rendering
+    const isBrowser = () => typeof window !== "undefined";
+
+    let imageElem = isBrowser() && document.getElementsByClassName("image");
 
     useEffect(() => {
-      if(!loadingUser){
-        if(user){
-          Router.push('/')
+      if (!loadingUser) {
+        if (user) {
+          Router.push("/");
         }
-        console.log(user)
+        console.log(user);
       }
-    })
+    });
     useEffect(() => {
-    
       imageElem[index].classList.add("visibility");
     }, []);
     //clear interval on route change
@@ -39,10 +36,9 @@ const SignIn = inject("store")(
 
       setindex(index++);
       if (index > 4) {
-       
-        setindex(index=0);
+        setindex((index = 0));
       }
- 
+
       imageElem[index].classList.add("visibility");
     }, delay);
     const [Email, setEmail] = useState("");
@@ -55,15 +51,15 @@ const SignIn = inject("store")(
 
       setPassword(e.target.value);
     };
-    const handleSubmit = async(e) => {
+    const handleSubmit = async (e) => {
       e.preventDefault();
-      setloading(true)
-      console.log(loading)
-     let signIn = await  props.store.signInUserWithEmailAndPassword({
+      setloading(true);
+      console.log(loading);
+      let signIn = await props.store.signInUserWithEmailAndPassword({
         email: Email,
         password: Password,
       });
-      setloading(false)
+      setloading(false);
     };
     return (
       <div className="container">
@@ -83,7 +79,6 @@ const SignIn = inject("store")(
               <img className="instagram" src="/static/instagram.png" alt="" />
             </h1>
             <div className="labelContainer">
-            
               {props.store.error && (
                 <div className="error">{props.store.error}</div>
               )}
@@ -114,7 +109,7 @@ const SignIn = inject("store")(
             </div>
 
             <button type="submit" className="button" disabled={loading}>
-           {loading? <PulseSpinner size={20} color="#fff" />  :'Log In'}
+              {loading ? <PulseSpinner size={20} color="#fff" /> : "Log In"}
             </button>
 
             <div className="border">
@@ -179,4 +174,4 @@ const SignIn = inject("store")(
     );
   })
 );
-export default ProtectRoute( SignIn);
+export default ProtectRoute(SignIn);

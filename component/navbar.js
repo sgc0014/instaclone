@@ -8,8 +8,8 @@ import { FiHeart } from "react-icons/fi";
 import { AiOutlineSetting } from "react-icons/ai";
 import { FaRegUserCircle } from "react-icons/fa";
 import { GrSave } from "react-icons/gr";
-import Link from 'next/link'
-import {useUser} from '../context/userContext'
+import Link from "next/link";
+import { useUser } from "../context/userContext";
 
 export default function Navbar() {
   const [userToggler, setuserToggler] = useState(false);
@@ -17,21 +17,20 @@ export default function Navbar() {
   const { loadingUser, user } = useUser();
   function dropdownToggler(e) {
     e.preventDefault();
-   
+
     if (e.target.id == "userToggler") {
       setuserToggler(!userToggler);
-     return
+      return;
     }
     setusernotificationToggler(!usernotificationToggler);
-    
   }
 
   return (
     <div className="navbar">
       <div className="center">
         <h1 className="instaHeader">
-          <Link href='/'>
-          <img className="instagram" src="/static/instagram.png" alt="" />
+          <Link href="/">
+            <img className="instagram" src="/static/instagram.png" alt="" />
           </Link>
         </h1>
         <div className="search">
@@ -46,16 +45,16 @@ export default function Navbar() {
 
         <ul className="nav-items">
           <li className="nav-item">
-            <Link href='/'>
-            <a >
-            <BsHouseDoorFill size={26} />
-            </a>
+            <Link href="/">
+              <a>
+                <BsHouseDoorFill size={26} />
+              </a>
             </Link>
           </li>
           <li className="nav-item">
             <Link href="/chat">
-              <a >
-              <RiSendPlaneLine size={26} />
+              <a>
+                <RiSendPlaneLine size={26} />
               </a>
             </Link>
           </li>
@@ -65,23 +64,31 @@ export default function Navbar() {
           <li className="nav-item">
             <FiHeart size={26} />
           </li>
-          <li  className="nav-item">
-            <div   className="user">
-              <img id='userToggler' onClick={dropdownToggler} src={user.photoUrl} />
+          <li className="nav-item">
+            <div className="user">
+              <img
+                id="userToggler"
+                onClick={dropdownToggler}
+                src={user && user.photoUrl}
+              />
             </div>
-           
-            <div className={userToggler? `userdropDownMenu visible`: `userdropDownMenu`} >
+
+            <div
+              className={
+                userToggler ? `userdropDownMenu visible` : `userdropDownMenu`
+              }
+            >
               <ul className="menuItems">
-              <Link href='/singleProfile/sgc0014'><a>
-                <li className="menuItem">
-                
-                  <span className="menuIcon">
-                    <FaRegUserCircle size={"16px"} />{" "}
-                  </span>{" "}
-                  <div>Profile</div>
-                  
-                </li>
-                </a></Link>
+                <Link href={`/singleProfile/${user.username}`}>
+                  <a>
+                    <li className="menuItem">
+                      <span className="menuIcon">
+                        <FaRegUserCircle size={"16px"} />{" "}
+                      </span>{" "}
+                      <div>Profile</div>
+                    </li>
+                  </a>
+                </Link>
                 <li className="menuItem">
                   <span className="menuIcon">
                     <GrSave size={"16px"} />{" "}
@@ -94,7 +101,12 @@ export default function Navbar() {
                   </span>
                   <div> Setting</div>
                 </li>
-                <Link href='/signIn'><a >  <li className="menuItem">Log Out</li></a></Link>
+                <Link href="/signIn">
+                  <a>
+                    {" "}
+                    <li className="menuItem">Log Out</li>
+                  </a>
+                </Link>
               </ul>
             </div>
           </li>

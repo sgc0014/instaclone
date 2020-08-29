@@ -5,7 +5,7 @@ import { useUser } from "../../context/userContext";
 
 function Userlist() {
   const [username, setusername] = useState([]);
-  const { loadingUser, user, otherUsers, loadingotherUser } = useUser();
+  const { user, otherUsers } = useUser();
 
   return (
     <div className="left">
