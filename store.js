@@ -38,7 +38,7 @@ class Store {
         action("success", (querySnap) => {
           let data = [];
           let t = querySnap.forEach((doc) => {
-            data.push(doc.data());
+            data.push({...doc.data(),id:doc.id});
           });
           this.posts = data;
         })

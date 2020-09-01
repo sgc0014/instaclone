@@ -90,6 +90,12 @@ function Userlist() {
             border-radius: 50%;
             margin-right: 10px;
           }
+          @media screen and (max-width: 700px) {
+            
+            .left{
+              width: 100%;
+            }
+                      }
         `}
       </style>
     </div>

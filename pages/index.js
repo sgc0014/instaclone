@@ -64,8 +64,9 @@ const Home = inject("store")(
                         key={i}
                         caption={post.caption}
                         imgArr={post.imgArr}
-                        likes={post.likes}
+                        likeCount={post.likeCount}
                         author={post.author}
+                        id={post.id}
                       />
                     ))}
                 </div>

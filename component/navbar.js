@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { FiSearch } from "react-icons/fi";
+import { FiSearch, FiUser, FiPlusSquare } from "react-icons/fi";
 import { IoIosCloseCircle } from "react-icons/io";
-import { BsHouseDoorFill, BsCircle } from "react-icons/bs";
+import { BsHouseDoorFill } from "react-icons/bs";
 import { RiSendPlaneLine } from "react-icons/ri";
 import { TiCompass } from "react-icons/ti";
 import { FiHeart } from "react-icons/fi";
-import { AiOutlineSetting } from "react-icons/ai";
+import { AiOutlineSetting, AiOutlineCamera } from "react-icons/ai";
 import { FaRegUserCircle } from "react-icons/fa";
 import { GrSave } from "react-icons/gr";
 import Link from "next/link";
@@ -16,9 +16,7 @@ export default function Navbar() {
   const [usernotificationToggler, setusernotificationToggler] = useState(false);
   const { loadingUser, user } = useUser();
 
-  useEffect(() => {
-
-  })
+  useEffect(() => {});
   function dropdownToggler(e) {
     e.preventDefault();
 
@@ -29,95 +27,147 @@ export default function Navbar() {
     setusernotificationToggler(!usernotificationToggler);
   }
 
-  return (user &&
-    <div className="navbar">
-      <div className="center">
-        <h1 className="instaHeader">
-          <Link href="/">
-            <img className="instagram" src="/static/instagram.png" alt="" />
-          </Link>
-        </h1>
-        <div className="search">
-          <input className="input" placeholder="Search" />
-          <span className="searchLogo">
-            <FiSearch />
-          </span>
-          <span className="circleLogo">
-            <IoIosCloseCircle />
-          </span>
-        </div>
+  return (
+    user && (
+      <>
+        <div className="mobile-navbar ">
+          <div className="mobile-center">
+            <ul className="nav-items mobile-ul">
+              <li className="nav-item ">
+                <Link href="/">
+                  <a>
+                    <BsHouseDoorFill size={26} />
+                  </a>
+                </Link>
+              </li>
+              <li className="nav-item ">
+                <Link href="/">
+                  <a>
+                    <FiSearch size={26} />
+                  </a>
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link href="/chat">
+                  <a>
+                    <FiPlusSquare size={26} />
+                  </a>
+                </Link>
+              </li>
 
-        <ul className="nav-items">
-          <li className="nav-item">
-            <Link href="/">
-              <a>
-                <BsHouseDoorFill size={26} />
-              </a>
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link href="/chat">
-              <a>
-                <RiSendPlaneLine size={26} />
-              </a>
-            </Link>
-          </li>
-          <li className="nav-item">
-            <TiCompass size={26} />
-          </li>
-          <li className="nav-item">
-            <FiHeart size={26} />
-          </li>
-          <li className="nav-item">
-            <div className="user">
-              <img
-                id="userToggler"
-                onClick={dropdownToggler}
-                src={user && user.photoUrl}
-              />
-            </div>
+              <li className="nav-item ">
+                <FiHeart size={26} />
+              </li>
 
-            <div
-              className={
-                userToggler ? `userdropDownMenu visible` : `userdropDownMenu`
-              }
-            >
-              <ul className="menuItems">
+              <li className="nav-item ">
                 <Link href={`/singleProfile/${user.username}`}>
                   <a>
+                    <div className="user">
+                      <FiUser size={26} />
+                    </div>
+                  </a>
+                </Link>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div className="navbar">
+          <div className="center">
+            <Link href="/chat">
+              <a className="visualStory">
+                <AiOutlineCamera size={26} />
+              </a>
+            </Link>
+            <h1 className="instaHeader">
+              <Link href="/">
+                <img className="instagram" src="/static/instagram.png" alt="" />
+              </Link>
+            </h1>
+            <div className="search">
+              <input className="input" placeholder="Search" />
+              <span className="searchLogo">
+                <FiSearch />
+              </span>
+              <span className="circleLogo">
+                <IoIosCloseCircle />
+              </span>
+            </div>
+
+            <ul className="nav-items">
+              <li className="nav-item invisible">
+                <Link href="/">
+                  <a>
+                    <BsHouseDoorFill size={26} />
+                  </a>
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link href="/chat">
+                  <a>
+                    <RiSendPlaneLine size={26} />
+                  </a>
+                </Link>
+              </li>
+              <li className="nav-item invisible">
+                <TiCompass size={26} />
+              </li>
+              <li className="nav-item invisible">
+                <FiHeart size={26} />
+              </li>
+              <li className="nav-item invisible">
+                <div className="user">
+                  <img
+                    id="userToggler"
+                    onClick={dropdownToggler}
+                    src={user && user.photoUrl}
+                  />
+                </div>
+
+                <div
+                  className={
+                    userToggler
+                      ? `userdropDownMenu visible`
+                      : `userdropDownMenu`
+                  }
+                >
+                  <ul className="menuItems">
+                    <Link href={`/singleProfile/${user.username}`}>
+                      <a>
+                        <li className="menuItem">
+                          <span className="menuIcon">
+                            <FaRegUserCircle size={"16px"} />{" "}
+                          </span>{" "}
+                          <div>Profile</div>
+                        </li>
+                      </a>
+                    </Link>
                     <li className="menuItem">
                       <span className="menuIcon">
-                        <FaRegUserCircle size={"16px"} />{" "}
-                      </span>{" "}
-                      <div>Profile</div>
+                        <GrSave size={"16px"} />{" "}
+                      </span>
+                      <div>Saved</div>
                     </li>
-                  </a>
-                </Link>
-                <li className="menuItem">
-                  <span className="menuIcon">
-                    <GrSave size={"16px"} />{" "}
-                  </span>
-                  <div>Saved</div>
-                </li>
-                <li className="menuItem">
-                  <span className="menuIcon">
-                    <AiOutlineSetting size={"16px"} />{" "}
-                  </span>
-                  <div> Setting</div>
-                </li>
-                <Link href="/signIn">
-                  <a>
-                    {" "}
-                    <li className="menuItem">Log Out</li>
-                  </a>
-                </Link>
-              </ul>
-            </div>
-          </li>
-        </ul>
-      </div>
-      <style jsx>
-        {`
+                    <li className="menuItem">
+                      <span className="menuIcon">
+                        <AiOutlineSetting size={"16px"} />{" "}
+                      </span>
+                      <div> Setting</div>
+                    </li>
+                    <Link href="/signIn">
+                      <a>
+                        {" "}
+                        <li className="menuItem">Log Out</li>
+                      </a>
+                    </Link>
+                  </ul>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <style jsx>
+          {`
           .navbar {
             background: #ffff;
             border-bottom: 1px solid #dbdbdb;
@@ -131,6 +181,10 @@ export default function Navbar() {
             display: flex;
             justify-content: space-evenly;
             height: 60px;
+            padding: 0 10px;
+          }
+          .visualStory{
+            display:none;
           }
           .instaHeader {
             cursor:pointer;
@@ -196,11 +250,13 @@ export default function Navbar() {
             transition: opacity 75ms linear,transform 38ms ease-out,-webkit-transform 38ms ease-out;
             z-index: -10;
             transform: translateY(-50px);
+            display:none;
           }
           .visible{
            opacity:1;
            z-index: 2;
            transform: translateY(0px);
+           display:flex;
           }
           .menuItems {
             list-style: none;
@@ -221,12 +277,53 @@ export default function Navbar() {
             padding-right: 16px;
           }
           @media screen and (max-width: 850px) {
+            .center{
+              justify-content:space-between;
+            }
+          
             .search{
               display:none;
             }
+            @media screen and (max-width: 700px) {
+              .invisible{
+                display:none;
+              }
+              .center{
+                padding: 0 10px;
+              }
+              ul{
+                padding-left:0;
+              }
+              .visualStory{
+                display:flex;
+                align-items:center;
+              }
+          }
+          @media screen and (min-width: 700px) {
+            .mobile-navbar{
+              display:none;
+            }
+           
+          }
+
+
+          .mobile-navbar{
+           
+              background: #ffff;
+              border-top: 1px solid #dbdbdb;
+              position: fixed;
+              width: 100%;
+              bottom: 0;
+              z-index: 10;
+           
+          }
+          .mobile-ul{
+            width:100%;
+            justify-content: space-between;
           }
         `}
-      </style>
-    </div>
+        </style>
+      </>
+    )
   );
 }

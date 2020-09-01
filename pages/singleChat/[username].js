@@ -20,7 +20,6 @@ const Username = inject("store")(
       if (!loadingUser && !loadingotherUser) {
         props.store.getMsg(user.username, replierUsername);
       }
-      
     }, [loadingotherUser, user, otherUsers, loadingUser]);
 
     const handleChange = (e) => {
@@ -57,8 +56,8 @@ const Username = inject("store")(
         });
 
       setoutgoingMsg("");
-      var elem = document.getElementById('chatScreen');
-      elem.scrollBottom = elem.scrollHeight;
+      var elem = document.getElementById("chatFieldId");
+      elem.scrollTop = elem.scrollHeight;
     };
 
     return (
@@ -66,16 +65,22 @@ const Username = inject("store")(
         {console.log(chats && chats)}
 
         <div className="chatContainer">
-          <Userlist />
-          <div className="right">
+          <div className="userListContainer">
+            <Userlist />
+          </div>
+          <div id="rightId" className="right">
             <div className="rightHeader">
               <div className="username"> {replierUsername}</div>
               <div className="icon">
                 <AiOutlineInfoCircle size={"22px"} />
               </div>
             </div>
-            <form className="chatField" onSubmit={handleSubmit}>
-              <div id='chatScreen' className="chats">
+            <form
+              id="chatFieldId"
+              className="chatField"
+              onSubmit={handleSubmit}
+            >
+              <div id="chatScreen" className="chats">
                 {chats &&
                   chats.map((msg, i) =>
                     msg.senderUsername == user.username ? (
@@ -114,11 +119,12 @@ const Username = inject("store")(
         <style jsx>
           {`
           .chatContainer {
-            width: 935px;
+            max-width: 935px;
             margin: 40px auto;
             display: flex;
             border: 1px solid #dbdbdb;
             background: #fff;
+            
           }
           .emptyMsgBox {
             display: flex;
@@ -227,6 +233,23 @@ const Username = inject("store")(
           .recievermsg {
             border: 1px solid #efefef;
           }
+          @media screen and (max-width: 700px) {
+            .right{
+             height:91vh;
+             width: 100%;
+            }
+            .chatContainer{
+              margin-top: -70px;
+              z-index: 99999;
+              position: relative;
+            }
+            .inputContainer {
+               padding:6px;
+            }
+            .userListContainer{
+              display:none;
+            }
+                      }
         `}
         </style>
       </Layout>

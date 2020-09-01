@@ -358,7 +358,7 @@ const Username = inject("store")(
                   font-size: 12px;
                 }
               }
-              @media screen and (max-width: 430px) {
+              @media screen and (max-width: 460px) {
                 .profileUsername {
                   font-size: 20px;
                 }
@@ -368,12 +368,17 @@ const Username = inject("store")(
                 .userPP {
                   padding: 26px 0px 33px;
                 }
+                .userPP > img {
+                  width: 70px;
+                  height: 70px;
+                  border-radius: 50%;
+                }
                 .nav-item {
                   font-size: 0;
                 }
                 .imgContainer {
-                  width: 83px;
-                  height: 83px;
+                  width: 120px;
+                  height: 120px;
                 }
               }
             `}
