@@ -23,7 +23,7 @@ const Home = inject("store")(
     return !loadingUser ? (
       user && (
         <>
-          <Layout>
+          <>
           
             <div className="mainBody">
               <div className="left">
@@ -190,7 +190,7 @@ const Home = inject("store")(
           }
         `}
             </style>
-          </Layout>
+          </>
         </>
       )
     ) : (

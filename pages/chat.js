@@ -9,7 +9,7 @@ const Chat = () => {
   const { loadingUser, user } = useUser();
   return !loadingUser ? (
     <>
-      <Layout>
+    
         <div className="chatContainer">
           <Userlist />
 
@@ -78,7 +78,7 @@ const Chat = () => {
             }
           `}
         </style>
-      </Layout>
+      
     </>
   ) : (
     <Loading />

@@ -29,7 +29,7 @@ const Singlepost = inject("store")(
       user && (
         <>
           {console.log("props.store.comments", props.store.comments)}
-          <Layout>
+        
             <div className="singlePostDetailContainer">
               <div className="mainContent">
                 <div className="imgContainer">
@@ -121,7 +121,7 @@ const Singlepost = inject("store")(
                 </div>
               </div>
             </div>
-          </Layout>
+          
           <style jsx>{`
             .singlePostDetailContainer {
               max-width: 935px;

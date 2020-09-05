@@ -63,7 +63,7 @@ const Username = inject("store")(
 
   
     return (
-      <Layout>
+      <>
         <div className="chatContainer">
           <div className="userListContainer">
             <Userlist />
@@ -255,7 +255,7 @@ const Username = inject("store")(
                       }
         `}
         </style>
-      </Layout>
+      </>
     );
   })
 );

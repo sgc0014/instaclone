@@ -64,7 +64,7 @@ console.log("done")
     
       user && (
         <>
-          <Layout>
+        
             {console.log(user)}
             <div className="editContainer">
               <div className="leftSide">
@@ -200,7 +200,7 @@ console.log("done")
                 </form>
               </div>
             </div>
-          </Layout>
+          
           <style jsx>
             {`
               .editContainer {

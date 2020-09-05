@@ -39,7 +39,7 @@ const Username = inject("store")(
           ) : (
             <Uploadpp open={false} />
           )}
-          <Layout>
+        
             {console.log(open)}
             <div className="mainProfile">
               <div className="profileContainer">
@@ -160,7 +160,7 @@ const Username = inject("store")(
                 </div>
               </div>
             </div>
-          </Layout>
+          
           <style jsx>
             {`
               .mainProfile {

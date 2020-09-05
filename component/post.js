@@ -15,7 +15,8 @@ const Post = inject("store")(
     const { author, imgArr, likeCount, caption, id } = props;
 
     useEffect(() => {
-      const check = firebase
+      const check =  
+      firebase
         .firestore()
         .collection("likes")
         .where("liker", "==", user.username)
@@ -31,7 +32,7 @@ const Post = inject("store")(
         });
 
       return () => {
-        check();
+        check
       };
     }, []);
     const handleSubmit = async (e) => {

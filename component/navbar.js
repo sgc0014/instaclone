@@ -253,8 +253,8 @@ const Navbar = inject("store")(
             background: #fff;
             position: absolute;
             width: 235px;
-            right: 144px;
-            top: 60px;
+            right: -3px;
+            top: 45px;
             border-radius: 6px;
             box-shadow: 0px 0px 5px #bbb;
             opacity:0;
