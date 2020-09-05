@@ -19,19 +19,16 @@ const Home = inject("store")(
       }
     }, [loadingUser, user]);
 
-    const handleLogOut = (e) => {
-      firebase.auth().signOut();
-      e.preventDefault();
-    };
+  
     return !loadingUser ? (
       user && (
         <>
           <Layout>
-           
+          
             <div className="mainBody">
               <div className="left">
                 <ul className="storyContainer">
-                  <li className="story" onClick={handleLogOut}>
+                  <li className="story" >
                     <div className="storypp">
                       <img src="/static/users/user1.jpg" />
                     </div>

@@ -10,12 +10,19 @@ import { FaRegUserCircle } from "react-icons/fa";
 import { GrSave } from "react-icons/gr";
 import Link from "next/link";
 import { useUser } from "../context/userContext";
+import firebase from '../lib/firebase'
+import { inject, observer } from "mobx-react";
 
-export default function Navbar() {
+const Navbar = inject("store")(
+  observer((props) => {
   const [userToggler, setuserToggler] = useState(false);
   const [usernotificationToggler, setusernotificationToggler] = useState(false);
   const { loadingUser, user } = useUser();
 
+
+  useEffect(() => {
+    
+  })
   useEffect(() => {});
   function dropdownToggler(e) {
     e.preventDefault();
@@ -26,7 +33,10 @@ export default function Navbar() {
     }
     setusernotificationToggler(!usernotificationToggler);
   }
-
+  const handleLogOut = (e) => {
+    firebase.auth().signOut();
+    e.preventDefault();
+  };
   return (
     user && (
       <>
@@ -104,7 +114,7 @@ export default function Navbar() {
               <li className="nav-item">
                 <Link href="/chat">
                   <a>
-                    <RiSendPlaneLine size={26} />
+                    <RiSendPlaneLine size={26} /><div className={props.store.unreadState? 'dot': 'null'}></div>
                   </a>
                 </Link>
               </li>
@@ -130,7 +140,7 @@ export default function Navbar() {
                       : `userdropDownMenu`
                   }
                 >
-                  <ul className="menuItems">
+                  <ul className="menuItems" style={{width:"100%"}}>
                     <Link href={`/singleProfile/${user.username}`}>
                       <a>
                         <li className="menuItem">
@@ -153,10 +163,10 @@ export default function Navbar() {
                       </span>
                       <div> Setting</div>
                     </li>
-                    <Link href="/signIn">
+                    <Link href="/signIn" >
                       <a>
                         {" "}
-                        <li className="menuItem">Log Out</li>
+                        <li onClick={handleLogOut} className="menuItem">Log Out</li>
                       </a>
                     </Link>
                   </ul>
@@ -227,6 +237,7 @@ export default function Navbar() {
           .nav-item {
             padding-left: 14px;
             cursor:pointer;
+            position:relative;
           }
          
           .instagram {
@@ -275,6 +286,25 @@ export default function Navbar() {
           }
           .menuIcon {
             padding-right: 16px;
+          }
+          
+          .dot{
+            background: #ed4956;
+            border-radius: 50%;
+            width: 9px;
+            height: 9px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            color: #600707;
+          
+            position: absolute;
+top: 2px;
+left: 30px;
+          }
+          .null{
+            display:none;
           }
           @media screen and (max-width: 850px) {
             .center{
@@ -326,4 +356,6 @@ export default function Navbar() {
       </>
     )
   );
-}
+}))
+
+export default Navbar

@@ -34,7 +34,8 @@ const Username = inject("store")(
         msgContent: outgoingMsg,
         senderUsername: user.username,
         timeStamp: firebase.firestore.Timestamp.now(),
-        readStatus: false,
+        readStatus:false,
+        photoUrl:user.photoUrl
       };
       let sendMsg = await firebase
         .firestore()
@@ -60,10 +61,9 @@ const Username = inject("store")(
       elem.scrollTop = elem.scrollHeight;
     };
 
+  
     return (
       <Layout>
-        {console.log(chats && chats)}
-
         <div className="chatContainer">
           <div className="userListContainer">
             <Userlist />
@@ -89,9 +89,9 @@ const Username = inject("store")(
                       </div>
                     ) : (
                       <div className="incoming ">
-                        {(msg.readStatus = true)}
+                       
                         <div className="userImg">
-                          <img src={"/static/users/defaultUser.jpg"} />{" "}
+                          <img src={msg.photoUrl} />{" "}
                         </div>
                         <div className="msg recievermsg">{msg.msgContent}</div>
                       </div>
@@ -210,11 +210,13 @@ const Username = inject("store")(
             display: flex;
             justify-content: flex-end;
             margin: 10px 5px;
+            word-break: break-all;
           }
           .incoming {
             display: flex;
             justify-content: flex-start;
             margin: 10px 5px;
+            word-break: break-all;
           }
           .msg {
             padding: 16px;
@@ -226,6 +228,7 @@ const Username = inject("store")(
             top: 18px;
             border-radius: 50%;
             height: 29px;
+            margin-right:10px;
           }
           .outgoingmsg {
             background: #efefef;

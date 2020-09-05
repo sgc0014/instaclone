@@ -6,7 +6,8 @@ import { useUser } from "../context/userContext";
 import { ProtectRoute } from "../component/protectRoute";
 import useInterval from "../utils/useInterval";
 import { PulseSpinner } from "react-spinners-kit";
-import Router  from "next/router";
+import Router from "next/router";
+import firebase from "../lib/firebase";
 
 const SignIn = inject("store")(
   observer((props) => {
@@ -44,6 +45,11 @@ const SignIn = inject("store")(
     }, delay);
     const [Email, setEmail] = useState("");
     const [Password, setPassword] = useState("");
+
+    const loginWithFacebook = (e) => {
+      e.preventDefault();
+    props.store.loginWithFacebook()
+    };
 
     const handleChange = (e) => {
       if (e.target.name == "email") {
@@ -118,7 +124,7 @@ const SignIn = inject("store")(
               <div className="middle">OR</div>
               <div className="hr"></div>
             </div>
-            <button className={styles.facebook}>
+            <button className={styles.facebook} onClick={loginWithFacebook}>
               <span className={styles.fbLogo}>
                 <AiFillFacebook size="1.5em" />
               </span>

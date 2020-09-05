@@ -13,23 +13,38 @@ class Store {
   @observable posts = [];
   @observable error = null;
   @observable userInfo = null;
+  @observable unreadState = null;
+  @observable comments = [];
+ 
+  
+@action changeunread(boolean){
+  this.unreadState = boolean
+}
 
   @action async getMsg(user, otherUser) {
-    const msg = await db
+    const msgRef = db
       .collection("chats")
       .doc(`${user}`)
-      .collection(`${otherUser}`)
-      .orderBy("timeStamp", "desc")
-      .onSnapshot(
-        action("success", (querySnap) => {
-          let data = [];
-          let t = querySnap.forEach((doc) => {
-            data.push(doc.data());
-          });
-          this.chats = data;
-        })
-      );
+      .collection(`${otherUser}`);
+    const msg = await msgRef.orderBy("timeStamp", "desc").onSnapshot(
+      action("success", (querySnap) => {
+        let data = [];
+       
+        let t = querySnap.forEach((doc) => {
+          data.push(doc.data());
+       msgRef.where('senderUsername','==',otherUser).where("readStatus",'==',false).get().then(snap => {
+         snap.forEach(doc => {
+           doc.ref.update({readStatus:true})
+         })
+       })
+        });
+
+        
+        this.chats = data;
+      })
+    );
   }
+
   @action async getPosts() {
     const post = await db
       .collection("posts")
@@ -38,12 +53,67 @@ class Store {
         action("success", (querySnap) => {
           let data = [];
           let t = querySnap.forEach((doc) => {
-            data.push({...doc.data(),id:doc.id});
+            data.push({ ...doc.data(), id: doc.id });
           });
           this.posts = data;
         })
       );
   }
+  @action async getComments(id) {
+    const comment = await db
+      .collection("comment")
+      .where("postId","==",id)
+      .onSnapshot(
+        action("success", (querySnap) => {
+          let data = [];
+          let t = querySnap.forEach((doc) => {
+            data.push({ ...doc.data(), id: doc.id });
+          });
+          this.comments = data;
+        })
+      );
+  }
+  async likePost(username,postId,likeCount){
+    let postRef = firebase.firestore().collection("posts").doc(`${postId}`);
+    const post = await firebase
+      .firestore()
+      .collection("likes")
+      .add({ postId, liker: username })
+      .then(async (doc) => {
+        await postRef.update({ likeCount: likeCount + 1 });
+      });
+  }
+  async unlikePost(username,postId,likeCount){
+    let postRef = firebase.firestore().collection("posts").doc(`${postId}`);
+
+    await firebase
+      .firestore()
+      .collection("likes")
+      .where("liker", "==", username)
+      .where("postId", "==", postId)
+      .limit(1)
+      .get()
+      .then(async function (data) {
+        data.forEach((doc) => {
+          doc.ref.delete().then(async (doc) => {
+            await postRef.update({ likeCount: likeCount - 1 });
+           
+          });
+        });
+      });
+  }
+async postComment(commentData){
+  const post = await firebase
+  .firestore()
+  .collection("comment")
+  .add(commentData).then(doc => {
+    console.log("commented")
+
+  })
+  .catch(err => {
+    console.log(err)
+  })
+}
   async changePP(data) {
     console.log("1", data);
     let err;
@@ -71,35 +141,80 @@ class Store {
     this.error = err;
     console.log(this.error);
   }
-  async getUserProfile(username){
-  await  firebase
-          .firestore()
-          .collection(`users`)
-          .where("username", "==", `${username}`)
-          .get()
-          .then( action("success", (querySnap) => {
-           
-            querySnap.forEach((doc) => {
-              this.userInfo=doc.data()
-            });
-          }))
-          .catch((err) => {
-            console.log(err);
+  async getUserProfile(username) {
+    await firebase
+      .firestore()
+      .collection(`users`)
+      .where("username", "==", `${username}`)
+      .get()
+      .then(
+        action("success", (querySnap) => {
+          querySnap.forEach((doc) => {
+            this.userInfo = doc.data();
           });
+        })
+      )
+      .catch((err) => {
+        console.log(err);
+      });
   }
-  async updateUserProfile(name,username,email,phoneNo,gender,bio,id){
-    await  firebase
-    .firestore()
-    .collection(`users`)
-    .doc(`${id}`)
-    .update({name,username,email,phoneNo,gender,bio})
-    .then(function() {
-      console.log("Document successfully updated!");
-  })
-  .catch(function(error) {
-      // The document probably doesn't exist.
-      console.error("Error updating document: ", error);
-  });
+  async updateUserProfile(name, username, email, phoneNo, gender, bio, id) {
+    await firebase
+      .firestore()
+      .collection(`users`)
+      .doc(`${id}`)
+      .update({ name, username, email, phoneNo, gender, bio })
+      .then(function () {
+        console.log("Document successfully updated!");
+      })
+      .catch(function (error) {
+        // The document probably doesn't exist.
+        console.error("Error updating document: ", error);
+      });
+  }
+  async loginWithFacebook() {
+    let err;
+    var provider = new firebase.auth.FacebookAuthProvider();
+    firebase
+      .auth()
+      .signInWithPopup(provider)
+      .then(function (result) {
+        // This gives you a Facebook Access Token. You can use it to access the Facebook API.
+        var token = result.credential.accessToken;
+        // The signed-in user info.
+        var user = result.user;
+        console.log(user);
+
+        auth.onAuthStateChanged((user) => {
+          if (user) {
+            db.collection("users")
+              .doc(user.uid)
+              .set({
+                email: user.email,
+                username: user.displayName,
+                fullName: user.displayName,
+                photoUrl: user.photoURL,
+              })
+              .then((doc) => {
+                console.log("created");
+              });
+          }
+        });
+        // ...
+      })
+      .catch(function (error) {
+        // Handle Errors here.
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        // The email of the user's account used.
+        var email = error.email;
+        // The firebase.auth.AuthCredential type that was used.
+        var credential = error.credential;
+        console.log(errorMessage);
+        // ...
+      });
+    this.error = err;
+    console.log(this.error);
   }
   async createUserWithEmailAndPassword(userData) {
     let { email, username, fullName, password } = userData;

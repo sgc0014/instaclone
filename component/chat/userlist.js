@@ -2,12 +2,17 @@ import React, { useEffect, useState } from "react";
 import { FaRegEdit } from "react-icons/fa";
 import Link from "next/link";
 import { useUser } from "../../context/userContext";
-
+import User from './user'
 function Userlist() {
   const [username, setusername] = useState([]);
   const { user, otherUsers } = useUser();
 
-  return (
+  useEffect(() => {
+  
+  })
+
+  return user &&
+  otherUsers && (
     <div className="left">
       <div className="leftHeader" style={{ fontWeight: "600" }}>
         Direct
@@ -25,12 +30,8 @@ function Userlist() {
             .map((user, i = user.username) => (
               <Link href={`/singleChat/${user.username}`}>
                 <a>
-                  <div className="user" key={i}>
-                    <div className="userPp">
-                      <img src={`${user.photoUrl}`} />
-                    </div>
-                    <div className="mainUsername">{user.username}</div>
-                  </div>
+                 < User userImg={user.photoUrl} username={user.username} key={i} />
+                
                 </a>
               </Link>
             ))}
