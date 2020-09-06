@@ -12,7 +12,7 @@ const Post = inject("store")(
     const { user } = useUser();
     const [likeState, setLikeState] = useState(false);
     const [comment, setcomment] = useState("");
-    const { author, imgArr, likeCount, caption, id } = props;
+    const { author, imgArr, likeCount, caption, id,date } = props;
 
     useEffect(() => {
       const check =  
@@ -58,7 +58,7 @@ const Post = inject("store")(
     };
     return (
       user && (
-        <div className="post">
+        <div className="post">{console.log(date)}
           <div className="topPart">
             <span className="pp">
               <img src={`/static/users/user1.jpg`} />
@@ -110,7 +110,7 @@ const Post = inject("store")(
                 <span>{caption}</span>
               </div>
 
-              <div style={{ marginBottom: "5px" }} className="commentLink">
+              <div style={{ marginBottom: "5px", color: "#a8a8a8" ,fontSize: "11px"}} className="commentLink">
                 View all comment
               </div>
               <span className="day">2 Days Ago</span>
@@ -135,13 +135,10 @@ const Post = inject("store")(
                 width: 100%;
                 margin-bottom: 60px;
               }
-              .pp {
+             
+              .pp > img {
                 width: 33px;
                 height: 33px;
-              }
-              .pp > img {
-                width: 100%;
-                height: 100%;
                 border-radius: 50%;
               }
               .topPart {

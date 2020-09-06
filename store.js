@@ -15,12 +15,38 @@ class Store {
   @observable userInfo = null;
   @observable unreadState = null;
   @observable comments = [];
- 
-  
-@action changeunread(boolean){
-  this.unreadState = boolean
-}
 
+  @action changeunread(boolean) {
+    this.unreadState = boolean;
+  }
+  async addPost(finalData, postPic) {
+    let storageRef = firebase.storage().ref();
+    let uploadTask = await storageRef
+      .child(`posts/${postPic.name}`)
+      .put(postPic)
+      .then((snap) => {
+        snap.ref.getDownloadURL().then(async function (downloadURL) {
+          console.log("File available at", downloadURL);
+          let post = {
+            ...finalData,
+            imgArr: [downloadURL],
+            timeStamp: firebase.firestore.FieldValue.serverTimestamp(),
+          };
+
+          const final = await firebase
+            .firestore()
+            .collection("posts")
+            .add(post)
+            .then((doc) => {
+              console.log("posted");
+            });
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+        this.error = err;
+      });
+  }
   @action async getMsg(userId, otherUserId) {
     const msgRef = db
       .collection("chats")
@@ -29,17 +55,20 @@ class Store {
     const msg = await msgRef.orderBy("timeStamp", "desc").onSnapshot(
       action("success", (querySnap) => {
         let data = [];
-       
+
         let t = querySnap.forEach((doc) => {
           data.push(doc.data());
-       msgRef.where('senderId','==',otherUserId).where("readStatus",'==',false).get().then(snap => {
-         snap.forEach(doc => {
-           doc.ref.update({readStatus:true})
-         })
-       })
+          msgRef
+            .where("senderId", "==", otherUserId)
+            .where("readStatus", "==", false)
+            .get()
+            .then((snap) => {
+              snap.forEach((doc) => {
+                doc.ref.update({ readStatus: true });
+              });
+            });
         });
 
-        
         this.chats = data;
       })
     );
@@ -62,7 +91,7 @@ class Store {
   @action async getComments(id) {
     const comment = await db
       .collection("comment")
-      .where("postId","==",id)
+      .where("postId", "==", id)
       .onSnapshot(
         action("success", (querySnap) => {
           let data = [];
@@ -73,7 +102,7 @@ class Store {
         })
       );
   }
-  async likePost(username,postId,likeCount){
+  async likePost(username, postId, likeCount) {
     let postRef = firebase.firestore().collection("posts").doc(`${postId}`);
     const post = await firebase
       .firestore()
@@ -83,7 +112,7 @@ class Store {
         await postRef.update({ likeCount: likeCount + 1 });
       });
   }
-  async unlikePost(username,postId,likeCount){
+  async unlikePost(username, postId, likeCount) {
     let postRef = firebase.firestore().collection("posts").doc(`${postId}`);
 
     await firebase
@@ -97,23 +126,22 @@ class Store {
         data.forEach((doc) => {
           doc.ref.delete().then(async (doc) => {
             await postRef.update({ likeCount: likeCount - 1 });
-           
           });
         });
       });
   }
-async postComment(commentData){
-  const post = await firebase
-  .firestore()
-  .collection("comment")
-  .add(commentData).then(doc => {
-    console.log("commented")
-
-  })
-  .catch(err => {
-    console.log(err)
-  })
-}
+  async postComment(commentData) {
+    const post = await firebase
+      .firestore()
+      .collection("comment")
+      .add(commentData)
+      .then((doc) => {
+        console.log("commented");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
   async changePP(data) {
     console.log("1", data);
     let err;

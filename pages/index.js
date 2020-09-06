@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { useUser } from "../context/userContext";
 import { ProtectRoute } from "../component/protectRoute";
 import Loading from "../component/loading";
+import Create from "./create";
 
 const Home = inject("store")(
   observer((props) => {
@@ -24,7 +25,7 @@ const Home = inject("store")(
       user && (
         <>
           <>
-          
+       
             <div className="mainBody">
               <div className="left">
                 <ul className="storyContainer">
@@ -64,6 +65,7 @@ const Home = inject("store")(
                         likeCount={post.likeCount}
                         author={post.author}
                         id={post.id}
+                        date={post.timeStamp}
                       />
                     ))}
                 </div>
@@ -109,7 +111,7 @@ const Home = inject("store")(
           .storyContainer {
             border: 1px solid #dbdbdb;
             display:flex;
-            padding: 19px 21px 30px;
+            padding: 19px 0 30px;
           
             background: #ffffff
           }

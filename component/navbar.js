@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { FiSearch, FiUser, FiPlusSquare } from "react-icons/fi";
 import { IoIosCloseCircle } from "react-icons/io";
 import { BsHouseDoorFill } from "react-icons/bs";
@@ -10,174 +10,183 @@ import { FaRegUserCircle } from "react-icons/fa";
 import { GrSave } from "react-icons/gr";
 import Link from "next/link";
 import { useUser } from "../context/userContext";
-import firebase from '../lib/firebase'
+import firebase from "../lib/firebase";
 import { inject, observer } from "mobx-react";
+import Router  from 'next/router'
+import Create from "../pages/create";
 
 const Navbar = inject("store")(
   observer((props) => {
-  const [userToggler, setuserToggler] = useState(false);
-  const [usernotificationToggler, setusernotificationToggler] = useState(false);
-  const { loadingUser, user } = useUser();
+    const [userToggler, setuserToggler] = useState(false);
+    const [usernotificationToggler, setusernotificationToggler] = useState(
+      false
+    );
+    const { loadingUser, user } = useUser();
+  
+    function dropdownToggler(e) {
+      e.preventDefault();
 
-
-  useEffect(() => {
-    
-  })
-  useEffect(() => {});
-  function dropdownToggler(e) {
-    e.preventDefault();
-
-    if (e.target.id == "userToggler") {
-      setuserToggler(!userToggler);
-      return;
+      if (e.target.id == "userToggler") {
+        setuserToggler(!userToggler);
+        return;
+      }
+      setusernotificationToggler(!usernotificationToggler);
     }
-    setusernotificationToggler(!usernotificationToggler);
-  }
-  const handleLogOut = (e) => {
-    firebase.auth().signOut();
-    e.preventDefault();
-  };
-  return (
-    user && (
-      <>
-        <div className="mobile-navbar ">
-          <div className="mobile-center">
-            <ul className="nav-items mobile-ul">
-              <li className="nav-item ">
-                <Link href="/">
-                  <a>
-                    <BsHouseDoorFill size={26} />
-                  </a>
-                </Link>
-              </li>
-              <li className="nav-item ">
-                <Link href="/">
-                  <a>
-                    <FiSearch size={26} />
-                  </a>
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link href="/chat">
-                  <a>
-                    <FiPlusSquare size={26} />
-                  </a>
-                </Link>
-              </li>
+    const handleLogOut = (e) => {
+      firebase.auth().signOut();
+      e.preventDefault();
+    };
 
-              <li className="nav-item ">
-                <FiHeart size={26} />
-              </li>
+    return (
+      user && (
+        <>
+        
+          <div className="mobile-navbar ">
+            <div className="mobile-center">
+              <ul className="nav-items mobile-ul">
+                <li className="nav-item ">
+                  <Link href="/">
+                    <a>
+                      <BsHouseDoorFill size={26} />
+                    </a>
+                  </Link>
+                </li>
+                <li className="nav-item ">
+                  <Link href="/">
+                    <a>
+                      <FiSearch size={26} />
+                    </a>
+                  </Link>
+                </li>
+                <li className="nav-item">
+                 
+                      <FiPlusSquare size={26}  onClick={() => Router.push('/create')} />
+                     
+                   
+                </li>
 
-              <li className="nav-item ">
-                <Link href={`/singleProfile/${user.username}`}>
-                  <a>
-                    <div className="user">
-                      <FiUser size={26} />
-                    </div>
-                  </a>
-                </Link>
-              </li>
-            </ul>
-          </div>
-        </div>
-        <div className="navbar">
-          <div className="center">
-            <Link href="/chat">
-              <a className="visualStory">
-                <AiOutlineCamera size={26} />
-              </a>
-            </Link>
-            <h1 className="instaHeader">
-              <Link href="/">
-                <img className="instagram" src="/static/instagram.png" alt="" />
-              </Link>
-            </h1>
-            <div className="search">
-              <input className="input" placeholder="Search" />
-              <span className="searchLogo">
-                <FiSearch />
-              </span>
-              <span className="circleLogo">
-                <IoIosCloseCircle />
-              </span>
+                <li className="nav-item ">
+                  <FiHeart size={26} />
+                </li>
+
+                <li className="nav-item ">
+                  <Link href={`/singleProfile/${user.username}`}>
+                    <a>
+                      <div className="user">
+                        <FiUser size={26} />
+                      </div>
+                    </a>
+                  </Link>
+                </li>
+              </ul>
             </div>
-
-            <ul className="nav-items">
-              <li className="nav-item invisible">
-                <Link href="/">
-                  <a>
-                    <BsHouseDoorFill size={26} />
-                  </a>
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link href="/chat">
-                  <a>
-                    <RiSendPlaneLine size={26} /><div className={props.store.unreadState? 'dot': 'null'}></div>
-                  </a>
-                </Link>
-              </li>
-              <li className="nav-item invisible">
-                <TiCompass size={26} />
-              </li>
-              <li className="nav-item invisible">
-                <FiHeart size={26} />
-              </li>
-              <li className="nav-item invisible">
-                <div className="user">
-                  <img
-                    id="userToggler"
-                    onClick={dropdownToggler}
-                    src={user && user.photoUrl}
-                  />
-                </div>
-
-                <div
-                  className={
-                    userToggler
-                      ? `userdropDownMenu visible`
-                      : `userdropDownMenu`
-                  }
-                >
-                  <ul className="menuItems" style={{width:"100%"}}>
-                    <Link href={`/singleProfile/${user.username}`}>
-                      <a>
-                        <li className="menuItem">
-                          <span className="menuIcon">
-                            <FaRegUserCircle size={"16px"} />{" "}
-                          </span>{" "}
-                          <div>Profile</div>
-                        </li>
-                      </a>
-                    </Link>
-                    <li className="menuItem">
-                      <span className="menuIcon">
-                        <GrSave size={"16px"} />{" "}
-                      </span>
-                      <div>Saved</div>
-                    </li>
-                    <li className="menuItem">
-                      <span className="menuIcon">
-                        <AiOutlineSetting size={"16px"} />{" "}
-                      </span>
-                      <div> Setting</div>
-                    </li>
-                    <Link href="/signIn" >
-                      <a>
-                        {" "}
-                        <li onClick={handleLogOut} className="menuItem">Log Out</li>
-                      </a>
-                    </Link>
-                  </ul>
-                </div>
-              </li>
-            </ul>
           </div>
-        </div>
+          <div className="navbar">
+            <div className="center">
+              <Link href="/chat">
+                <a className="visualStory">
+                  <AiOutlineCamera size={26} />
+                </a>
+              </Link>
+              <h1 className="instaHeader">
+                <Link href="/">
+                  <img
+                    className="instagram"
+                    src="/static/instagram.png"
+                    alt=""
+                  />
+                </Link>
+              </h1>
+              <div className="search">
+                <input className="input" placeholder="Search" />
+                <span className="searchLogo">
+                  <FiSearch />
+                </span>
+                <span className="circleLogo">
+                  <IoIosCloseCircle />
+                </span>
+              </div>
 
-        <style jsx>
-          {`
+              <ul className="nav-items">
+                <li className="nav-item invisible">
+                  <Link href="/">
+                    <a>
+                      <BsHouseDoorFill size={26} />
+                    </a>
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link href="/chat">
+                    <a>
+                      <RiSendPlaneLine size={26} />
+                      <div
+                        className={props.store.unreadState ? "dot" : "null"}
+                      ></div>
+                    </a>
+                  </Link>
+                </li>
+                <li className="nav-item invisible">
+                  <TiCompass size={26} />
+                </li>
+                <li className="nav-item invisible">
+                  <FiHeart size={26} />
+                </li>
+                <li className="nav-item invisible">
+                  <div className="user">
+                    <img
+                      id="userToggler"
+                      onClick={dropdownToggler}
+                      src={user && user.photoUrl}
+                    />
+                  </div>
+
+                  <div
+                    className={
+                      userToggler
+                        ? `userdropDownMenu visible`
+                        : `userdropDownMenu`
+                    }
+                  >
+                    <ul className="menuItems" style={{ width: "100%" }}>
+                      <Link href={`/singleProfile/${user.username}`}>
+                        <a>
+                          <li className="menuItem">
+                            <span className="menuIcon">
+                              <FaRegUserCircle size={"16px"} />{" "}
+                            </span>{" "}
+                            <div>Profile</div>
+                          </li>
+                        </a>
+                      </Link>
+                      <li className="menuItem">
+                        <span className="menuIcon">
+                          <GrSave size={"16px"} />{" "}
+                        </span>
+                        <div>Saved</div>
+                      </li>
+                      <li className="menuItem">
+                        <span className="menuIcon">
+                          <AiOutlineSetting size={"16px"} />{" "}
+                        </span>
+                        <div> Setting</div>
+                      </li>
+                      <Link href="/signIn">
+                        <a>
+                          {" "}
+                          <li onClick={handleLogOut} className="menuItem">
+                            Log Out
+                          </li>
+                        </a>
+                      </Link>
+                    </ul>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <style jsx>
+            {`
           .navbar {
             background: #ffff;
             border-bottom: 1px solid #dbdbdb;
@@ -239,7 +248,7 @@ const Navbar = inject("store")(
             cursor:pointer;
             position:relative;
           }
-         
+        
           .instagram {
             width: 103px;
           }
@@ -298,10 +307,9 @@ const Navbar = inject("store")(
             justify-content: center;
             font-weight: 600;
             color: #600707;
-          
             position: absolute;
-top: 2px;
-left: 30px;
+            top: 2px;
+            left: 30px;
           }
           .null{
             display:none;
@@ -352,10 +360,11 @@ left: 30px;
             justify-content: space-between;
           }
         `}
-        </style>
-      </>
-    )
-  );
-}))
+          </style>
+        </>
+      )
+    );
+  })
+);
 
-export default Navbar
+export default Navbar;

@@ -55,7 +55,7 @@ const Uploadpp = inject("store")(
           <button
             className="uploadButton"
             style={{ color: "#0095f9", textAlign: "center" }}
-            onClick={() => console.log(inputEl.current.click())}
+            onClick={() => (inputEl.current.click())}
             disabled={loading}
           >
             Upload Photo
@@ -85,7 +85,7 @@ const Uploadpp = inject("store")(
               background: rgba(0, 0, 0, 0.7);
               display: none;
               justify-content: center;
-              margin-top: -70px;
+              margin-top: -108px;
               overflow: hidden;
             }
             .open {
