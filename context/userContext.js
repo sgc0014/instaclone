@@ -47,7 +47,7 @@ export default function UserContextComp({ children }) {
       .onSnapshot(function (querySnapshot) {
         let data = [];
         querySnapshot.forEach(function (doc) {
-          data.push(doc.data());
+          data.push({...doc.data(),id:doc.id});
         });
 
         setotherUsers(data);

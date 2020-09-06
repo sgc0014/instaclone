@@ -106,6 +106,7 @@ const SignIn = inject("store")(
               <label>
                 <input
                   name="password"
+                  type='hidden'
                   className="input"
                   required={true}
                   onChange={handleChange}

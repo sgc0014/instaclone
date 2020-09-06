@@ -13,12 +13,12 @@ const Username = inject("store")(
     const [outgoingMsg, setoutgoingMsg] = useState("");
     const [error, seterror] = useState("Error");
     const { loadingUser, user, otherUsers, loadingotherUser } = useUser();
-    const { replierUsername } = props;
+    const { replier } = props;
     const { chats } = props.store;
 
     useEffect(() => {
       if (!loadingUser && !loadingotherUser) {
-        props.store.getMsg(user.username, replierUsername);
+        props.store.getMsg(user.id, replier.id);
       }
     }, [loadingotherUser, user, otherUsers, loadingUser]);
 
@@ -32,7 +32,7 @@ const Username = inject("store")(
 
       const finalMsg = {
         msgContent: outgoingMsg,
-        senderUsername: user.username,
+        senderId: user.id,
         timeStamp: firebase.firestore.Timestamp.now(),
         readStatus:false,
         photoUrl:user.photoUrl
@@ -40,16 +40,16 @@ const Username = inject("store")(
       let sendMsg = await firebase
         .firestore()
         .collection("chats")
-        .doc(`${replierUsername}`)
-        .collection(`${user.username}`)
+        .doc(`${replier.id}`)
+        .collection(`${user.id}`)
         .add(finalMsg)
         .then((doc) => {
           console.log("done");
           firebase
             .firestore()
             .collection("chats")
-            .doc(`${user.username}`)
-            .collection(`${replierUsername}`)
+            .doc(`${user.id}`)
+            .collection(`${replier.id}`)
             .add(finalMsg);
         })
         .catch((err) => {
@@ -70,7 +70,7 @@ const Username = inject("store")(
           </div>
           <div id="rightId" className="right">
             <div className="rightHeader">
-              <div className="username"> {replierUsername}</div>
+              <div className="username"> {replier.username}</div>
               <div className="icon">
                 <AiOutlineInfoCircle size={"22px"} />
               </div>
@@ -83,7 +83,7 @@ const Username = inject("store")(
               <div id="chatScreen" className="chats">
                 {chats &&
                   chats.map((msg, i) =>
-                    msg.senderUsername == user.username ? (
+                    msg.senderId == user.id ? (
                       <div className="outgoing" key={i}>
                         <div className="msg outgoingmsg">{msg.msgContent}</div>
                       </div>
@@ -161,11 +161,12 @@ const Username = inject("store")(
             height: 100%;
             position: relative;
             overflow-y: auto;
+            scrollbar-width:thin; 
           }
           .chats {
             position: relative;
             top: 0px;
-            margin-bottom: 63px;
+            margin-bottom: 112px;
             min-height: 268px;
             display: flex;
             flex-direction: column-reverse;
@@ -269,10 +270,14 @@ const Username = inject("store")(
 export default Username;
 
 export async function getServerSideProps({ params }) {
-  const replierUsername = params.username;
+  const replierId = params.id;
+  let replier;
+  await firebase.firestore().collection("users").doc(`${replierId}`).get().then(doc => {
+  replier={username:doc.data().username,id:replierId}
+  })
   return {
     props: {
-      replierUsername,
+      replier,
     },
   };
 }

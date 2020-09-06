@@ -27,10 +27,10 @@ function Userlist() {
           otherUsers &&
           otherUsers
             .filter((userDoc) => userDoc.username !== user.username)
-            .map((user, i = user.username) => (
-              <Link href={`/singleChat/${user.username}`}>
+            .map((user, i = user.id) => (
+              <Link href={`/singleChat/${user.id}`}>
                 <a>
-                 < User userImg={user.photoUrl} username={user.username} key={i} />
+                 < User userImg={user.photoUrl} username={user.username} id={user.id} key={i} />
                 
                 </a>
               </Link>

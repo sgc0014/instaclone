@@ -21,18 +21,18 @@ class Store {
   this.unreadState = boolean
 }
 
-  @action async getMsg(user, otherUser) {
+  @action async getMsg(userId, otherUserId) {
     const msgRef = db
       .collection("chats")
-      .doc(`${user}`)
-      .collection(`${otherUser}`);
+      .doc(`${userId}`)
+      .collection(`${otherUserId}`);
     const msg = await msgRef.orderBy("timeStamp", "desc").onSnapshot(
       action("success", (querySnap) => {
         let data = [];
        
         let t = querySnap.forEach((doc) => {
           data.push(doc.data());
-       msgRef.where('senderUsername','==',otherUser).where("readStatus",'==',false).get().then(snap => {
+       msgRef.where('senderId','==',otherUserId).where("readStatus",'==',false).get().then(snap => {
          snap.forEach(doc => {
            doc.ref.update({readStatus:true})
          })
