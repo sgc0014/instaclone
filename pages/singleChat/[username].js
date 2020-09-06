@@ -246,8 +246,14 @@ const Username = inject("store")(
               z-index: 99999;
               position: relative;
             }
+            .chats{
+              bottom:0;
+              margin-bottom;104px;
+              min-height:100%;
+            }
             .inputContainer {
                padding:6px;
+               position:fixed;
             }
             .userListContainer{
               display:none;

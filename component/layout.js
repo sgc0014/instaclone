@@ -5,7 +5,7 @@ function Layout(props) {
   return (
     <div>
       <Navbar />
-      <div style={{ marginTop: "40px" }}>{props.children}</div>
+      <div style={{ marginTop: "63px" }}>{props.children}</div>
     </div>
   );
 }

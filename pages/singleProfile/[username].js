@@ -146,7 +146,7 @@ const Username = inject("store")(
                     <div className="imgContainer">
                       <div className="hoverEffect">
                         <div className="quick-info">
-                          <span>10</span>
+                          <span>{post.likeCount}</span>
                           <AiFillHeart size={25} />
                         </div>
                         <div className="quick-info">
