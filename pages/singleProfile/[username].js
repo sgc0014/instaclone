@@ -18,12 +18,14 @@ import firebase from "../../lib/firebase";
 const Username = inject("store")(
   observer((props) => {
     const { loadingUser, user } = useUser();
-    const {userInfo} = props.store
+    const {userInfo} = props.store;
+    const [postLength, setpostLength] = useState(false);
     useEffect(() => {
       if (user) {
         props.store.getPosts();
         props.store.getUserProfile(props.username)
-       
+        const ownPost = props.store.posts.filter(post => post.author == user.username)
+       setpostLength(ownPost.length)
       }
     }, [loadingUser, user]);
 
@@ -33,7 +35,7 @@ const Username = inject("store")(
       user &&
       userInfo && (
         <>
-          {console.log(userInfo)}
+         {console.log(props.store.posts)}
           {user.username == userInfo.username ? (
             <Uploadpp open={open} />
           ) : (
@@ -78,10 +80,10 @@ const Username = inject("store")(
                   </div>
                   <div className="midLevel">
                     <div className="postNo">
-                      <span className="bold">{userInfo.postNo} </span> posts
+                      <span className="bold">{postLength} </span> posts
                     </div>
                     <div className="followers">
-                      <span className="bold">4 </span> followers
+                      <span className="bold">5 </span> followers
                     </div>
                     <div className="following">
                       <span className="bold">4 </span> following
@@ -95,7 +97,7 @@ const Username = inject("store")(
               </div>
               <div className="newLowLevel">
                 <div className="postNo">
-                  <span className="bold">4 </span> posts
+                  <span className="bold">{postLength}  </span> posts
                 </div>
                 <div className="followers">
                   <span className="bold">4 </span> followers
@@ -149,10 +151,10 @@ const Username = inject("store")(
                           <span>{post.likeCount}</span>
                           <AiFillHeart size={25} />
                         </div>
-                        <div className="quick-info">
+                        {/* <div className="quick-info">
                           <span>10</span>
                           <FaComment size={25} />
-                        </div>
+                        </div> */}
                       </div>
                       <img src={post.imgArr[0]} className="postImg" />
                     </div>
@@ -171,6 +173,7 @@ const Username = inject("store")(
               .profileContainer {
                 display: flex;
                 width: 100%;
+                padding: 0px 11px;
               }
               .userPP {
                 padding: 35px 54px 41px;
@@ -377,8 +380,8 @@ const Username = inject("store")(
                   font-size: 0;
                 }
                 .imgContainer {
-                  width: 120px;
-                  height: 120px;
+                  width: 100px;
+                  height: 100px;
                 }
               }
             `}

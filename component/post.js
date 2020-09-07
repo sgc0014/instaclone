@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {  BsChat } from "react-icons/bs";
+import { BsChat } from "react-icons/bs";
 import { FiMoreHorizontal, FiHeart } from "react-icons/fi";
 import { RiSendPlaneLine } from "react-icons/ri";
 import firebase from "../lib/firebase";
@@ -12,11 +12,10 @@ const Post = inject("store")(
     const { user } = useUser();
     const [likeState, setLikeState] = useState(false);
     const [comment, setcomment] = useState("");
-    const { author, imgArr, likeCount, caption, id,date } = props;
+    const { author, imgArr, likeCount, caption, id, date } = props;
 
     useEffect(() => {
-      const check =  
-      firebase
+      const check = firebase
         .firestore()
         .collection("likes")
         .where("liker", "==", user.username)
@@ -32,7 +31,7 @@ const Post = inject("store")(
         });
 
       return () => {
-        check
+        check;
       };
     }, []);
     const handleSubmit = async (e) => {
@@ -48,30 +47,28 @@ const Post = inject("store")(
       setcomment("");
     };
     const likePost = async () => {
-      props.store.likePost(user.username,id,likeCount)
+      props.store.likePost(user.username, id, likeCount);
       setLikeState(true);
     };
     const unlikePost = async () => {
       console.log(likeCount);
-    props.store.unlikePost(user.username,id,likeCount)
-    setLikeState(false);
+      props.store.unlikePost(user.username, id, likeCount);
+      setLikeState(false);
     };
     return (
       user && (
-        <div className="post">{console.log(date)}
+        <div className="post">
+          {console.log(date)}
           <div className="topPart">
             <span className="pp">
               <img src={`/static/users/user1.jpg`} />
             </span>
             <div className="subPart">
-              
               <span className="username">
                 <Link href={`/singleProfile/${author}`}>
-                <a>
-                {author}
-                </a>
+                  <a>{author}</a>
                 </Link>
-                </span>
+              </span>
               <span>
                 <FiMoreHorizontal />
               </span>
@@ -116,10 +113,20 @@ const Post = inject("store")(
                 <span className="username">{author}</span>
                 <span>{caption}</span>
               </div>
-
-              <div style={{ marginBottom: "5px", color: "#a8a8a8" ,fontSize: "11px"}} className="commentLink">
-                View all comment
-              </div>
+              <Link href={`/singlePost/${id}`}>
+                <a>
+                  <div
+                    style={{
+                      marginBottom: "5px",
+                      color: "#a8a8a8",
+                      fontSize: "11px",
+                    }}
+                    className="commentLink"
+                  >
+                    View all comment
+                  </div>
+                </a>
+              </Link>
               <span className="day">2 Days Ago</span>
             </div>
             <form className="userCommentBox" onSubmit={handleSubmit}>
@@ -142,7 +149,7 @@ const Post = inject("store")(
                 width: 100%;
                 margin-bottom: 60px;
               }
-             
+
               .pp > img {
                 width: 33px;
                 height: 33px;

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useUser } from "../../context/userContext";
 import { inject, observer } from "mobx-react";
+import Uploadpp from "../../component/uploadPP";
 const { default: Layout } = require("../../component/layout");
 
 const Edit = inject("store")(
@@ -14,6 +15,7 @@ const Edit = inject("store")(
     const [id, setid] = useState("");
     const { loadingUser, user } = useUser();
     const { userInfo,updateUserProfile } = props.store;
+    const [open, setopen] = useState(false);
     useEffect(() => {
       if (user) {
         props.store.getPosts();
@@ -65,7 +67,7 @@ console.log("done")
       user && (
         <>
         
-            {console.log(user)}
+        <Uploadpp open={open} />
             <div className="editContainer">
               <div className="leftSide">
                 <ul className="nav-items">
@@ -82,9 +84,10 @@ console.log("done")
               </div>
               <div className="rightSide">
                 <form onSubmit={handleSubmit}>
-                  <div className="formLabel">
+                  <div className='pp' onClick={() => setopen(!open)}>Change Profile Photo</div>
+                  <div className="formLabel" style={{marginTop:"48px"}}>
                     <label>
-                      <div className="labelHeader">Name</div>
+                      <div className="labelHeader" >Name</div>
                       <div className="inputcontainer">
                         <input name='name' onChange={handleChange} type="text" value={name}></input>
 
@@ -192,7 +195,7 @@ console.log("done")
                   </div>
 
                   <button
-                    style={{ margin: "0 auto", width: "66px", height: "38px" }}
+                    style={{ margin: "0 auto", width: "66px", height: "38px", marginBottom:'66px' }}
                     className="button"
                   >
                     Submit
@@ -234,6 +237,7 @@ console.log("done")
               }
               form {
                 margin-bottom: 50px;
+                position:relative;
               }
               .labelHeader {
                 width: 194px;
@@ -270,6 +274,36 @@ console.log("done")
               .checkbox {
                 position: relative;
                 top: 2px;
+              }
+              .pp {
+                position: absolute;
+                top: -18px;
+                left: 39%;
+                color: #0095f6;
+                font-weight: 700;
+                cursor:pointer;
+              }
+              @media screen and (max-width: 870px) {
+            .leftSide{
+              display:none;
+            }
+            label {
+              flex-direction:column;
+            }
+            form{
+              padding: 0 0 0 11px;
+            }
+            .labelHeader {
+              width:0;
+            }
+              }
+              @media screen and (max-width: 364px) {
+                .inputcontainer{
+                  width:221px;
+                }
+                .pp{
+                  left: 21%;
+                }
               }
             `}
           </style>

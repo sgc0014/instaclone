@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { FiSearch, FiUser, FiPlusSquare } from "react-icons/fi";
 import { IoIosCloseCircle } from "react-icons/io";
 import { BsHouseDoorFill } from "react-icons/bs";
@@ -13,6 +13,7 @@ import { useUser } from "../context/userContext";
 import firebase from "../lib/firebase";
 import { inject, observer } from "mobx-react";
 import Router  from 'next/router'
+import useOuterClick from "../utils/useOuterClick";
 
 
 const Navbar = inject("store")(
@@ -36,6 +37,8 @@ const Navbar = inject("store")(
       firebase.auth().signOut();
       e.preventDefault();
     };
+  
+const innerRef = useOuterClick(ev => {if(userToggler){setuserToggler(false) }});
 
     return (
       user && (
@@ -147,7 +150,7 @@ const Navbar = inject("store")(
                         : `userdropDownMenu`
                     }
                   >
-                    <ul className="menuItems" style={{ width: "100%" }}>
+                    <ul ref={ innerRef} className="menuItems" style={{ width: "100%" }}>
                       <Link href={`/singleProfile/${user.username}`}>
                         <a>
                           <li className="menuItem">
@@ -358,6 +361,7 @@ const Navbar = inject("store")(
           .mobile-ul{
             width:100%;
             justify-content: space-between;
+            padding: 0px 13px;
           }
         `}
           </style>
@@ -368,3 +372,6 @@ const Navbar = inject("store")(
 );
 
 export default Navbar;
+
+
+

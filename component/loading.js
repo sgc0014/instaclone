@@ -7,6 +7,7 @@ export default function Loading() {
           background: #fefeff;
           width: 100vw;
           height: 100vh;
+          margin-top:-70px;
         }
         .loadingBody > img {
           width: 140px;

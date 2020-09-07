@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { inject, observer } from "mobx-react";
 import { useUser } from "../context/userContext";
 import { GooSpinner } from "react-spinners-kit";
+import useOuterClick from "../utils/useOuterClick";
 const Uploadpp = inject("store")(
   observer((props) => {
     const inputEl = useRef(null);
@@ -27,6 +28,7 @@ const Uploadpp = inject("store")(
         console.log("done");
       }
     };
+    const innerRef = useOuterClick(ev => {if(open){setOpen(false) }});
     return (
       <div className={open ? `profilePicChange open` : "profilePicChange"}>
         <div className="mainPart">
@@ -41,7 +43,7 @@ const Uploadpp = inject("store")(
           >
             {loading ? <GooSpinner color={"#000"} /> : "Change Profile Photo"}
           </h2>
-          <form className="ppChangeForm">
+          <form className="ppChangeForm" ref={innerRef}>
             <input
               ref={inputEl}
               hidden={true}
