@@ -1,13 +1,11 @@
 import Post from "../component/post";
 import RecommendedUser from "../component/recommendedUser";
-import Layout from "../component/layout";
 import { observer, inject } from "mobx-react";
-import firebase from "../lib/firebase";
 import { useEffect, useState } from "react";
 import { useUser } from "../context/userContext";
 import { ProtectRoute } from "../component/protectRoute";
 import Loading from "../component/loading";
-import Create from "./create";
+
 
 const Home = inject("store")(
   observer((props) => {

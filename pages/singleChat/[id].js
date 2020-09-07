@@ -19,6 +19,8 @@ const Username = inject("store")(
     useEffect(() => {
       if (!loadingUser && !loadingotherUser) {
         props.store.getMsg(user.id, replier.id);
+      
+       
       }
     }, [loadingotherUser, user, otherUsers, loadingUser]);
 
@@ -57,8 +59,11 @@ const Username = inject("store")(
         });
 
       setoutgoingMsg("");
-      var elem = document.getElementById("chatFieldId");
-      elem.scrollTop = elem.scrollHeight;
+      
+        var elem = document.getElementById('chatFieldId');
+        elem.scrollTop = elem.scrollHeight;
+     
+    
     };
 
   
@@ -166,7 +171,7 @@ const Username = inject("store")(
           .chats {
             position: relative;
             top: 0px;
-            margin-bottom: 112px;
+            margin-bottom: 99px;
             min-height: 268px;
             display: flex;
             flex-direction: column-reverse;

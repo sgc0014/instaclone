@@ -1,57 +1,62 @@
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { useUser } from "../context/userContext";
 import { observer, inject } from "mobx-react";
 import Link from "next/link";
 import { PulseSpinner } from "react-spinners-kit";
-import Router  from "next/router";
+import Router from "next/router";
+import useWindowSize from '../utils/useWindowSize'
 const Create = inject("store")(
   observer((props) => {
     const inputEl = useRef(null);
+    const size = useWindowSize()
+
     const { user } = useUser();
     const [caption, setcaption] = useState("");
     const [postPic, setpostPic] = useState();
     const [loading, setloading] = useState(false);
+
     const uploadPost = async (e) => {
       document.getElementById("postImg").src = window.URL.createObjectURL(
         e.target.files[0]
       );
       setpostPic(e.target.files[0]);
     };
-    const handleSubmit = async() => {
+    const handleSubmit = async () => {
       if (postPic) {
         setloading(true);
         const finalData = {
-            author: user.username,
-            authorId:user.id,
-            photoUrl:user.photoUrl,
-            caption,
-            likeCount: 0,
-           
-          };
-       await props.store.addPost(finalData,postPic);
+          author: user.username,
+          authorId: user.id,
+          photoUrl: user.photoUrl,
+          caption,
+          likeCount: 0,
+        };
+        await props.store.addPost(finalData, postPic);
 
         setloading(false);
-        if(!props.store.error){
-            Router.push('/')
+        if (!props.store.error) {
+          Router.push("/");
         }
-        
       }
-      console.log("no img");
+ 
     };
 
-    return (
+    return size.width > 690 ? (
+     <Redirect/>
+    ) : (
       <div className="create">
+       
         <header className="header">
           <div className="icon">
-              <Link href='/'>
+            <Link href="/">
               <a>
-            <MdKeyboardArrowLeft size={28} />
-            </a>
-              </Link>
+                <MdKeyboardArrowLeft size={28} />
+              </a>
+            </Link>
           </div>
           <h3>New Post</h3>
-         
+
           <input
             ref={inputEl}
             hidden={true}
@@ -61,9 +66,9 @@ const Create = inject("store")(
             accept="image/jpeg,image/png"
             onChange={uploadPost}
           />
-         
+
           <button
-            className="shareButton"
+            className={postPic ? "shareButton" : "shareButton empt"}
             disabled={loading}
             onClick={handleSubmit}
           >
@@ -149,8 +154,8 @@ const Create = inject("store")(
             height: 100%;
             max-width: 66px;
             max-height: 117px;
-            position:relative;
-            z-index:2;
+            position: relative;
+            z-index: 2;
           }
           .upload {
             position: relative;
@@ -170,9 +175,10 @@ const Create = inject("store")(
             border: none;
             background: transparent;
           }
-          .shareButton:disabled{
-            color:#045f7d;
+          .empt {
+            color: #abd8e8;
           }
+
           .optional {
             background: #fff;
             padding: 13px;
@@ -187,3 +193,12 @@ const Create = inject("store")(
 );
 
 export default Create;
+
+//Redirect to home
+function Redirect () {
+  useEffect(() => {
+    Router.push("/");
+  })
+  return(<></>)
+}
+

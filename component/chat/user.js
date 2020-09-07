@@ -2,38 +2,14 @@ import { useEffect, useState } from "react";
 import firebase from "../../lib/firebase";
 import { useUser } from "../../context/userContext";
 import { inject, observer } from "mobx-react";
-import { action } from "mobx";
+
 
 const User = inject("store")(
   observer((props) => {
     const { user, otherUsers, loadingUser } = useUser();
-    const [newMsgState, setNewMsg] = useState(0);
+    const [newMsgState, setNewMsg] = useState(5);
     useEffect(() => {
-      
-      const checkunreadState = firebase
-          .firestore()
-          .collection("chats")
-          .doc(`${user.username}`)
-          .collection(`${props.username}`)
-          .where("senderUsername", "==", props.username)
-          .where("readStatus", "==", false)
-          .onSnapshot((querySnap) => {
-            let arr = [];
-            querySnap.forEach((doc) => {
-              console.log(doc.data());
-              arr.push(doc.data());
-            });
-            if (!querySnap.empty) {
-              setNewMsg(arr.length);
-              console.log("tru");
-            props.store.changeunread(true)
-            } else {
-              setNewMsg(0);
-              props.store.changeunread(false)
-            }
-          });
-      
-return() =>{ checkunreadState()}
+         props.store.changeunread(user.id,props.id)
     }, [user, loadingUser]);
     return (
       <>
@@ -43,7 +19,7 @@ return() =>{ checkunreadState()}
             <img src={props.userImg} />
           </div>
           <div className="mainUsername">{props.username}</div>
-          <div className={newMsgState > 0 ? "dot" : "null"}>{newMsgState}</div>
+          <div className={props.store.unreadState ? "dot" : "null"}>{newMsgState}</div>
         </div>
 
         <style jsx>{`

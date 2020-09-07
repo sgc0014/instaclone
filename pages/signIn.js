@@ -7,7 +7,7 @@ import { ProtectRoute } from "../component/protectRoute";
 import useInterval from "../utils/useInterval";
 import { PulseSpinner } from "react-spinners-kit";
 import Router from "next/router";
-import firebase from "../lib/firebase";
+
 
 const SignIn = inject("store")(
   observer((props) => {

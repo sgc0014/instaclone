@@ -1,6 +1,5 @@
 import React from "react";
 import Userlist from "../component/chat/userlist";
-import Layout from "../component/layout";
 import { ProtectRoute } from "../component/protectRoute";
 import { useUser } from "../context/userContext";
 import Loading from "../component/loading";

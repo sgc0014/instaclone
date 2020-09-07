@@ -1,5 +1,4 @@
 import { useState, useRef, useEffect } from "react";
-import firebase from "../lib/firebase";
 import { inject, observer } from "mobx-react";
 import { useUser } from "../context/userContext";
 import { GooSpinner } from "react-spinners-kit";

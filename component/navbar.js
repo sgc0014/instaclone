@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState } from "react";
 import { FiSearch, FiUser, FiPlusSquare } from "react-icons/fi";
 import { IoIosCloseCircle } from "react-icons/io";
 import { BsHouseDoorFill } from "react-icons/bs";
@@ -13,7 +13,7 @@ import { useUser } from "../context/userContext";
 import firebase from "../lib/firebase";
 import { inject, observer } from "mobx-react";
 import Router  from 'next/router'
-import Create from "../pages/create";
+
 
 const Navbar = inject("store")(
   observer((props) => {
@@ -188,7 +188,7 @@ const Navbar = inject("store")(
           <style jsx>
             {`
           .navbar {
-            background: #ffff;
+            background: #fff;
             border-bottom: 1px solid #dbdbdb;
             position: fixed;
             width: 100%;
@@ -347,7 +347,7 @@ const Navbar = inject("store")(
 
           .mobile-navbar{
            
-              background: #ffff;
+              background: #fff;
               border-top: 1px solid #dbdbdb;
               position: fixed;
               width: 100%;

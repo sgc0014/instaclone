@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { BsCircle, BsChat } from "react-icons/bs";
+import {  BsChat } from "react-icons/bs";
 import { FiMoreHorizontal, FiHeart } from "react-icons/fi";
 import { RiSendPlaneLine } from "react-icons/ri";
 import firebase from "../lib/firebase";
@@ -64,7 +64,14 @@ const Post = inject("store")(
               <img src={`/static/users/user1.jpg`} />
             </span>
             <div className="subPart">
-              <span className="username">{author}</span>
+              
+              <span className="username">
+                <Link href={`/singleProfile/${author}`}>
+                <a>
+                {author}
+                </a>
+                </Link>
+                </span>
               <span>
                 <FiMoreHorizontal />
               </span>

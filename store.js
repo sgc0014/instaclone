@@ -16,8 +16,28 @@ class Store {
   @observable unreadState = null;
   @observable comments = [];
 
-  @action changeunread(boolean) {
-    this.unreadState = boolean;
+  async changeunread(userId,otherId) {
+    await firebase
+    .firestore()
+    .collection("chats")
+    .doc(`${userId}`)
+    .collection(`${otherId}`)
+    .where("senderId", "==", otherId)
+    .where("readStatus", "==", false)
+    .onSnapshot((querySnap) => {
+      let arr = [];
+      querySnap.forEach((doc) => {
+        console.log(doc.data());
+        arr.push(doc.data());
+      });
+      if (!querySnap.empty) {
+        
+        console.log("tru");
+     this.unreadState = true
+      
+      }
+    })
+
   }
   async addPost(finalData, postPic) {
     let storageRef = firebase.storage().ref();
