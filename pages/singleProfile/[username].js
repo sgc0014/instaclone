@@ -24,6 +24,7 @@ const Username = inject("store")(
       if (user) {
         props.store.getPosts();
         props.store.getUserProfile(props.username)
+
         const ownPost = props.store.posts.filter(post => post.author == user.username)
        setpostLength(ownPost.length)
       }
@@ -35,7 +36,7 @@ const Username = inject("store")(
       user &&
       userInfo && (
         <>
-         {console.log(props.store.posts)}
+         
           {user.username == userInfo.username ? (
             <Uploadpp open={open} />
           ) : (
@@ -91,7 +92,7 @@ const Username = inject("store")(
                   </div>
                   <div className="lowLevel">
                     <div className="fullName bold">{userInfo.fullName}</div>
-                    <div className="bio">Hello</div>
+                    <div className="bio">{userInfo.bio}</div>
                   </div>
                 </div>
               </div>
@@ -144,8 +145,8 @@ const Username = inject("store")(
                 </nav>
 
                 <div className="userImgCollage">
-                  {props.store.posts.map((post) => (
-                    <div className="imgContainer">
+                  {props.store.posts.map((post,i=post.timeStamp) => (
+                    <div className="imgContainer" key={i}>
                       <div className="hoverEffect">
                         <div className="quick-info">
                           <span>{post.likeCount}</span>

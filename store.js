@@ -78,15 +78,9 @@ class Store {
 
         let t = querySnap.forEach((doc) => {
           data.push(doc.data());
-          msgRef
-            .where("senderId", "==", otherUserId)
-            .where("readStatus", "==", false)
-            .get()
-            .then((snap) => {
-              snap.forEach((doc) => {
-                doc.ref.update({ readStatus: true });
-              });
-            });
+                    doc.ref.update({ readStatus: true });
+        
+        
         });
 
         this.chats = data;

@@ -19,7 +19,7 @@ const User = inject("store")(
             <img src={props.userImg} />
           </div>
           <div className="mainUsername">{props.username}</div>
-          <div className={props.store.unreadState ? "dot" : "null"}>{newMsgState}</div>
+          <div className={props.store.unreadState ? "dot" : "null"}>!</div>
         </div>
 
         <style jsx>{`

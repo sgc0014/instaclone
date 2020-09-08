@@ -9,12 +9,14 @@ import Loading from "../component/loading";
 
 const Home = inject("store")(
   observer((props) => {
-    const { loadingUser, user } = useUser();
+    const { loadingUser, user, otherUsers } = useUser();
     const [posts, setposts] = useState([]);
 
     useEffect(() => {
       if (user) {
         props.store.getPosts();
+        otherUsers.map(other => props.store.changeunread(user.id,other.id) )
+        
       }
     }, [loadingUser, user]);
 
