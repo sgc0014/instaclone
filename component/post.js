@@ -12,7 +12,7 @@ const Post = inject("store")(
     const { user } = useUser();
     const [likeState, setLikeState] = useState(false);
     const [comment, setcomment] = useState("");
-    const { author, imgArr, likeCount, caption, id, date } = props;
+    const { author, imgArr, likeCount, caption, id, date,photoUrl } = props;
 
     useEffect(() => {
       console.log(user)
