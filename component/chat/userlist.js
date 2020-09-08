@@ -36,26 +36,7 @@ function Userlist() {
               </Link>
             ))}
 
-        <div className="user">
-          <div className="userPp">
-            <img src="/static/users/user2.jpg" />
-          </div>
-          <div className="mainUsername">Rabtorab</div>
-        </div>
-
-        <div className="user">
-          <div className="userPp">
-            <img src="/static/users/user3.jpg" />
-          </div>
-          <div className="mainUsername">Badgooy</div>
-        </div>
-
-        <div className="user">
-          <div className="userPp">
-            <img src="/static/users/user4.jpg" />
-          </div>
-          <div className="mainUsername">sznShr</div>
-        </div>
+      
       </div>
       <style jsx>
         {`
