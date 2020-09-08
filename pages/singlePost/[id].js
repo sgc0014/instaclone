@@ -5,6 +5,7 @@ import { FiMoreHorizontal, FiHeart } from "react-icons/fi";
 import { RiSendPlaneLine } from "react-icons/ri";
 import { useEffect, useState } from "react";
 import { inject, observer } from "mobx-react";
+import { ProtectRoute } from "../../component/protectRoute";
 
 const Singlepost = inject("store")(
   observer((props) => {
@@ -291,7 +292,7 @@ const Singlepost = inject("store")(
   })
 );
 
-export default Singlepost;
+export default ProtectRoute( Singlepost);
 
 export async function getServerSideProps({ params }) {
   const postId = params.id;

@@ -7,6 +7,7 @@ import firebase from "../../lib/firebase";
 import { inject, observer } from "mobx-react";
 import { useUser } from "../../context/userContext";
 import { RiChatNewLine } from "react-icons/ri";
+import { ProtectRoute } from "../../component/protectRoute";
 
 const Username = inject("store")(
   observer((props) => {
@@ -272,7 +273,7 @@ const Username = inject("store")(
   })
 );
 
-export default Username;
+export default ProtectRoute( Username);
 
 export async function getServerSideProps({ params }) {
   const replierId = params.id;

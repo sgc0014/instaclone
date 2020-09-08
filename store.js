@@ -274,7 +274,7 @@ class Store {
               });
               db.collection("users")
                 .doc(user.uid)
-                .set({ email, username, fullName })
+                .set({ email, username, fullName, photoURL })
                 .then((doc) => {
                   console.log("created");
                 });

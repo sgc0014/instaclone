@@ -6,6 +6,7 @@ import Link from "next/link";
 import { PulseSpinner } from "react-spinners-kit";
 import Router from "next/router";
 import useWindowSize from '../utils/useWindowSize'
+import { ProtectRoute } from "../component/protectRoute";
 const Create = inject("store")(
   observer((props) => {
     const inputEl = useRef(null);
@@ -192,7 +193,7 @@ const Create = inject("store")(
   })
 );
 
-export default Create;
+export default ProtectRoute( Create);
 
 //Redirect to home
 function Redirect () {

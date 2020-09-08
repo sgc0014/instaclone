@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useUser } from "../../context/userContext";
 import { inject, observer } from "mobx-react";
 import Uploadpp from "../../component/uploadPP";
+import { ProtectRoute } from "../../component/protectRoute";
 const { default: Layout } = require("../../component/layout");
 
 const Edit = inject("store")(
@@ -312,4 +313,4 @@ console.log("done")
     );
   })
 );
-export default Edit;
+export default ProtectRoute( Edit);
