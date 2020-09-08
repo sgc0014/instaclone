@@ -8,6 +8,7 @@ import { inject, observer } from "mobx-react";
 import { useUser } from "../../context/userContext";
 import { RiChatNewLine } from "react-icons/ri";
 import { ProtectRoute } from "../../component/protectRoute";
+import  Router  from "next/router";
 
 const Username = inject("store")(
   observer((props) => {
@@ -18,7 +19,11 @@ const Username = inject("store")(
     const { chats } = props.store;
 
     useEffect(() => {
+      if(!loadingUser && !user){
+        Router.push("/signIn", "/");
+      }
       if (!loadingUser && !loadingotherUser) {
+      
         props.store.getMsg(user.id, replier.id);
       
        
@@ -76,7 +81,7 @@ const Username = inject("store")(
           </div>
           <div id="rightId" className="right">
             <div className="rightHeader">
-              <div className="username"> {replier.username}</div>
+              <div className="username"> {replier && replier.username}</div>
               <div className="icon">
                 <AiOutlineInfoCircle size={"22px"} />
               </div>
@@ -228,6 +233,7 @@ const Username = inject("store")(
           .msg {
             padding: 16px;
             border-radius: 30px;
+            max-width:208px;
           }
           .userImg>img{
             width: 29px;
@@ -273,7 +279,7 @@ const Username = inject("store")(
   })
 );
 
-export default ProtectRoute( Username);
+export default Username;
 
 export async function getServerSideProps({ params }) {
   const replierId = params.id;
