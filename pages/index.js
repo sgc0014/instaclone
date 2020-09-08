@@ -75,7 +75,8 @@ const Home = inject("store")(
                 <div className="rightContainer">
                   <div className="mainUser">
                     <div className="mainUserPp">
-                      <img src={user && user.photoUrl} />
+                     
+                      <img src={ user.photoUrl} />
                     </div>
                     <div className="mainUsername">
                       {user && user.username}{" "}

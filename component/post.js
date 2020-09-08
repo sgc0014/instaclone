@@ -15,6 +15,7 @@ const Post = inject("store")(
     const { author, imgArr, likeCount, caption, id, date } = props;
 
     useEffect(() => {
+      console.log(user)
       const check = firebase
         .firestore()
         .collection("likes")
