@@ -62,7 +62,7 @@ const Post = inject("store")(
           {console.log(date)}
           <div className="topPart">
             <span className="pp">
-              <img src={`/static/users/user1.jpg`} />
+              <img src={`${photoUrl}`} />
             </span>
             <div className="subPart">
               <span className="username">

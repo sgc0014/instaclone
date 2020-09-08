@@ -66,6 +66,7 @@ const Home = inject("store")(
                         author={post.author}
                         id={post.id}
                         date={post.timeStamp}
+                        photoUrl={post.photoUrl}
                       />
                     ))}
                 </div>
