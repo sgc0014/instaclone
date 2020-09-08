@@ -112,6 +112,7 @@ const SignUp = inject("store")(
                 <input
                   name="password"
                   className="input"
+                  type='password'
                   required={true}
                   onChange={(e) => handleChange(e)}
                 />

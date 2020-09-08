@@ -260,7 +260,7 @@ class Store {
   }
   async createUserWithEmailAndPassword(userData) {
     let { email, username, fullName, password } = userData;
-    let photoUrl = "/static/users/user1.jpg";
+    let photoUrl = "/static/users/user5.jpg";
     let err;
 
     const result = await auth
@@ -274,7 +274,7 @@ class Store {
               });
               db.collection("users")
                 .doc(user.uid)
-                .set({ email, username, fullName, photoURL })
+                .set({ email, username, fullName, photoURL:photoUrl })
                 .then((doc) => {
                   console.log("created");
                 });
