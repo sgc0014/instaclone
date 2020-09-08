@@ -173,6 +173,11 @@ class Store {
             .collection("users")
             .doc(`${data.id}`)
             .update({ photoUrl: `${downloadURL}` });
+           db.collection('posts').where('authorId','==',data.id).get().then(snap => {
+             snap.forEach(doc => {
+               doc.ref.update({photoUrl:downloadURL})
+             })
+           })
         });
       })
       .catch(function (error) {
