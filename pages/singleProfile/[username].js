@@ -14,19 +14,22 @@ import { inject, observer } from "mobx-react";
 import Link from "next/link";
 import Uploadpp from "../../component/uploadPP";
 import firebase from "../../lib/firebase";
+import Router  from "next/router";
 
 const Username = inject("store")(
   observer((props) => {
     const { loadingUser, user } = useUser();
-    const {userInfo} = props.store;
+    const { userInfo } = props.store;
     const [postLength, setpostLength] = useState(false);
     useEffect(() => {
       if (user) {
         props.store.getPosts();
-        props.store.getUserProfile(props.username)
+        props.store.getUserProfile(props.username);
 
-        const ownPost = props.store.posts.filter(post => post.author == user.username)
-       setpostLength(ownPost.length)
+        const ownPost = props.store.posts.filter(
+          (post) => post.author == user.username
+        );
+        setpostLength(ownPost.length);
       }
     }, [loadingUser, user]);
 
@@ -36,134 +39,141 @@ const Username = inject("store")(
       user &&
       userInfo && (
         <>
-         
           {user.username == userInfo.username ? (
             <Uploadpp open={open} />
           ) : (
             <Uploadpp open={false} />
           )}
-        
-            {console.log(open)}
-            <div className="mainProfile">
-              <div className="profileContainer">
-                <div className="userPP">
-                  <img src={userInfo.photoUrl} onClick={() => setopen(!open)} />
-                </div>
-                <div className="userInfo">
-                  <div className="topLevel">
-                    <h2 className="profileUsername">{userInfo.username}</h2>
-                    <div className="btnContainer">
-                      <Link href='/account/edit'>
-                      <a>
-                      <button
-                        className={
-                          user.username == userInfo.username
-                            ? "editButton visible"
-                            : "editButton"
-                        }
-                      >
-                        Edit Profile
-                      </button>
-                      </a>
-                      </Link>
-                    </div>
-                    <div className="btnContainer">
-                      <div
-                        className={
-                          user.username == userInfo.username
-                            ? "extraSetting visible"
-                            : "extraSetting"
-                        }
-                      >
-                        <GiCog size={20} />
-                      </div>
-                    </div>
-                  </div>
-                  <div className="midLevel">
-                    <div className="postNo">
-                      <span className="bold">{postLength} </span> posts
-                    </div>
-                    <div className="followers">
-                      <span className="bold">5 </span> followers
-                    </div>
-                    <div className="following">
-                      <span className="bold">4 </span> following
-                    </div>
-                  </div>
-                  <div className="lowLevel">
-                    <div className="fullName bold">{userInfo.fullName}</div>
-                    <div className="bio">{userInfo.bio}</div>
-                  </div>
-                </div>
-              </div>
-              <div className="newLowLevel">
-                <div className="postNo">
-                  <span className="bold">{postLength}  </span> posts
-                </div>
-                <div className="followers">
-                  <span className="bold">4 </span> followers
-                </div>
-                <div className="following">
-                  <span className="bold">4 </span> following
-                </div>
-              </div>
-              <div className="userPosts">
-                <nav className="navbar">
-                  <ul className="nav-items">
-                    <li className="nav-item">
-                      <Link href="/singleProfile/sgc0014/">
-                        <a>
-                          <span className="icon">
-                            <MdGridOn size={20} color={"#b0afaf"} />{" "}
-                          </span>{" "}
-                          POSTS
-                        </a>
-                      </Link>
-                    </li>
-                    <li className="nav-item">
-                      <span className="icon">
-                        <AiOutlineFundProjectionScreen
-                          size={20}
-                          color={"#b0afaf"}
-                        />{" "}
-                      </span>
-                      IGTV
-                    </li>
-                    <li className="nav-item">
-                      <span className="icon">
-                        <AiFillSave size={20} color={"#b0afaf"} />
-                      </span>
-                      SAVED
-                    </li>
-                    <li className="nav-item">
-                      <span className="icon">
-                        <RiFolderUserLine size={20} color={"#b0afaf"} />{" "}
-                      </span>
-                      TAGGED{" "}
-                    </li>
-                  </ul>
-                </nav>
 
-                <div className="userImgCollage">
-                  {props.store.posts.map((post,i=post.timeStamp) => (
-                    <div className="imgContainer" key={i}>
-                      <div className="hoverEffect">
-                        <div className="quick-info">
-                          <span>{post.likeCount}</span>
-                          <AiFillHeart size={25} />
-                        </div>
-                        {/* <div className="quick-info">
-                          <span>10</span>
-                          <FaComment size={25} />
-                        </div> */}
-                      </div>
-                      <img src={post.imgArr[0]} className="postImg" />
+       
+          <div className="mainProfile">
+            <div className="profileContainer">
+              <div className="userPP">
+                <img src={userInfo.photoUrl} onClick={() => setopen(!open)} />
+              </div>
+              <div className="userInfo">
+                <div className="topLevel">
+                  <h2 className="profileUsername">{userInfo.username}</h2>
+                  <div className="btnContainer">
+                    <Link href="/account/edit">
+                      <a>
+                        <button
+                          className={
+                            user.username == userInfo.username
+                              ? "editButton visible"
+                              : "editButton"
+                          }
+                        >
+                          Edit Profile
+                        </button>
+                      </a>
+                    </Link>
+                  </div>
+                  <div className="btnContainer">
+                    <div
+                      className={
+                        user.username == userInfo.username
+                          ? "extraSetting visible"
+                          : "extraSetting"
+                      }
+                      style={{cursor:"pointer"}}
+                    >
+                      <GiCog
+                        size={20}
+                        onClick={(e) => {
+                          firebase.auth().signOut();
+                          Router.push('/')
+                          e.preventDefault();
+                        }}
+                      />
                     </div>
-                  ))}
+                  </div>
+                </div>
+                <div className="midLevel">
+                  <div className="postNo">
+                    <span className="bold">{postLength} </span> posts
+                  </div>
+                  <div className="followers">
+                    <span className="bold">5 </span> followers
+                  </div>
+                  <div className="following">
+                    <span className="bold">4 </span> following
+                  </div>
+                </div>
+                <div className="lowLevel">
+                  <div className="fullName bold">{userInfo.fullName}</div>
+                  <div className="bio">{userInfo.bio}</div>
                 </div>
               </div>
             </div>
-          
+            <div className="newLowLevel">
+              <div className="postNo">
+                <span className="bold">{postLength} </span> posts
+              </div>
+              <div className="followers">
+                <span className="bold">4 </span> followers
+              </div>
+              <div className="following">
+                <span className="bold">4 </span> following
+              </div>
+            </div>
+            <div className="userPosts">
+              <nav className="navbar">
+                <ul className="nav-items">
+                  <li className="nav-item">
+                    <Link href="/singleProfile/sgc0014/">
+                      <a>
+                        <span className="icon">
+                          <MdGridOn size={20} color={"#b0afaf"} />{" "}
+                        </span>{" "}
+                        POSTS
+                      </a>
+                    </Link>
+                  </li>
+                  <li className="nav-item">
+                    <span className="icon">
+                      <AiOutlineFundProjectionScreen
+                        size={20}
+                        color={"#b0afaf"}
+                      />{" "}
+                    </span>
+                    IGTV
+                  </li>
+                  <li className="nav-item">
+                    <span className="icon">
+                      <AiFillSave size={20} color={"#b0afaf"} />
+                    </span>
+                    SAVED
+                  </li>
+                  <li className="nav-item">
+                    <span className="icon">
+                      <RiFolderUserLine size={20} color={"#b0afaf"} />{" "}
+                    </span>
+                    TAGGED{" "}
+                  </li>
+                </ul>
+              </nav>
+
+              <div className="userImgCollage">
+                {props.store.posts.map((post, i = post.timeStamp) => (
+                  <div className="imgContainer" key={i}>
+                    <div className="hoverEffect">
+                      <div className="quick-info">
+                        <span>{post.likeCount}</span>
+                        <AiFillHeart size={25} />
+                      </div>
+                      {/* <div className="quick-info">
+                          <span>10</span>
+                          <FaComment size={25} />
+                        </div> */}
+                    </div>
+                    <img src={post.imgArr[0]} className="postImg" />
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
           <style jsx>
             {`
               .mainProfile {

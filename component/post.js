@@ -6,16 +6,18 @@ import firebase from "../lib/firebase";
 import Link from "next/link";
 import { useUser } from "../context/userContext";
 import { inject, observer } from "mobx-react";
+import useOuterClick from "../utils/useOuterClick";
 
 const Post = inject("store")(
   observer((props) => {
     const { user } = useUser();
     const [likeState, setLikeState] = useState(false);
     const [comment, setcomment] = useState("");
+    const [optionToggler, setoptionToggler] = useState(false);
     const { author, imgArr, likeCount, caption, id, date,photoUrl } = props;
 
     useEffect(() => {
-      console.log(user)
+      
       const check = firebase
         .firestore()
         .collection("likes")
@@ -52,14 +54,15 @@ const Post = inject("store")(
       setLikeState(true);
     };
     const unlikePost = async () => {
-      console.log(likeCount);
+
       props.store.unlikePost(user.username, id, likeCount);
       setLikeState(false);
     };
+    const optionRef = useOuterClick(ev => {if(optionToggler){setoptionToggler(false) }});
     return (
       user && (
         <div className="post">
-          {console.log(date)}
+        
           <div className="topPart">
             <span className="pp">
               <img src={`${photoUrl}`} />
@@ -70,9 +73,12 @@ const Post = inject("store")(
                   <a>{author}</a>
                 </Link>
               </span>
-              <span>
-                <FiMoreHorizontal />
-              </span>
+              <div className='post-option'>
+                <FiMoreHorizontal onClick={(e) =>{setoptionToggler(!optionToggler)}} />
+                <div className={optionToggler?"delete-option visible":"delete-option"} ref={optionRef}>
+                  <p onClick={() => { props.store.deletePost(id)}}>Delete</p>
+                </div>
+              </div>
             </div>
           </div>
           <div className="midPart">
@@ -149,6 +155,7 @@ const Post = inject("store")(
                 border: 1px solid #dbdbdb;
                 width: 100%;
                 margin-bottom: 60px;
+                position:relative;
               }
 
               .pp > img {
@@ -160,6 +167,31 @@ const Post = inject("store")(
                 display: flex;
                 padding: 15px;
                 align-items: center;
+              }
+              .post-option{
+                cursor:pointer;
+              }
+              .delete-option {
+                background: #fff;
+                width: 100px;
+                border-radius: 6px;
+                box-shadow: 0px 0px 5px #bbb;
+                opacity: 0;
+                z-index:-100;
+                transition: opacity 75ms linear,transform 38ms ease-out;
+                display: none;
+                padding-left: 11px;
+                position:absolute;
+                top:44px;
+                right:2px;
+              }
+              .visible{
+                opacity:1;
+                z-index: 2;
+                display:flex;
+               }
+              .delete-option>p{
+                cursor:pointer;
               }
               .subPart {
                 width: 100%;

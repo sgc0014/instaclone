@@ -11,7 +11,7 @@ const Uploadpp = inject("store")(
     const [loading, setloading] = useState(false);
     const { loadingUser, user } = useUser();
     useEffect(() => {
-      console.log("props.open", props.open);
+ 
       setOpen(props.open);
     }, [props.open]);
 

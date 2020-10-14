@@ -29,7 +29,7 @@ const Singlepost = inject("store")(
     return (
       user && (
         <>
-          {console.log("props.store.comments", props.store.comments)}
+         
         
             <div className="singlePostDetailContainer">
               <div className="mainContent">

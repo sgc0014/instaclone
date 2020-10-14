@@ -26,7 +26,7 @@ const SignIn = inject("store")(
         if (user) {
           Router.push("/");
         }
-        console.log(user);
+
       }
     });
     useEffect(() => {
@@ -61,7 +61,7 @@ const SignIn = inject("store")(
     const handleSubmit = async (e) => {
       e.preventDefault();
       setloading(true);
-      console.log(loading);
+     
       let signIn = await props.store.signInUserWithEmailAndPassword({
         email: Email,
         password: Password,

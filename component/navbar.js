@@ -270,7 +270,7 @@ const innerRef = useOuterClick(ev => {if(userToggler){setuserToggler(false) }});
             border-radius: 6px;
             box-shadow: 0px 0px 5px #bbb;
             opacity:0;
-            transition: opacity 75ms linear,transform 38ms ease-out,-webkit-transform 38ms ease-out;
+            transition: opacity 75ms linear,transform 38ms ease-out;
             z-index: -10;
             transform: translateY(-50px);
             display:none;

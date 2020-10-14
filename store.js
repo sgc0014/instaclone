@@ -102,6 +102,25 @@ class Store {
         })
       );
   }
+  @action async deletePost(id) {
+
+    const post = await db
+      .collection("posts")
+      .onSnapshot(
+        action("success", (querySnap) => {
+         
+          let t = querySnap.forEach((doc) => {
+           if(id === doc.id){
+             doc.ref.delete()
+             .then(() => {
+               console.log("deleted")
+             })
+           }
+          });
+         
+        })
+      );
+  }
   @action async getComments(id) {
     const comment = await db
       .collection("comment")

@@ -20,7 +20,7 @@ const SignUp = inject("store")(
         if (user) {
           Router.push("/");
         }
-        console.log(user);
+      
       }
     }, [loadingUser, user]);
     const handleChange = (e) => {

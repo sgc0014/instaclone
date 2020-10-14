@@ -58,9 +58,9 @@ const handleChange = (e) => {
 const handleSubmit = (e) => {
     e.preventDefault()
 const finalInfo = {name,username,email,phoneNo,gender,bio,id}
-console.log(finalInfo)
+
 updateUserProfile(name,username,email,phoneNo,gender,bio,id)
-console.log("done")
+
 }
 
     return (
